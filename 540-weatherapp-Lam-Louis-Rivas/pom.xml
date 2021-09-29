@@ -15,6 +15,12 @@
             <artifactId>javafx-controls</artifactId>
             <version>16</version>
         </dependency>
+                 <!--  TilesFX library -->
+        <dependency>
+            <groupId>eu.hansolo</groupId>
+            <artifactId>tilesfx</artifactId>
+            <version>11.13</version>
+        </dependency>
     </dependencies>
     <build>
         <plugins>
