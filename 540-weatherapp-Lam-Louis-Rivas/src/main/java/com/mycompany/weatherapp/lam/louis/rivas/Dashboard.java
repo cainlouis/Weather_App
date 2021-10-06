@@ -4,7 +4,11 @@ import eu.hansolo.tilesfx.Tile;
 import eu.hansolo.tilesfx.Tile.SkinType;
 import eu.hansolo.tilesfx.TileBuilder;
 import eu.hansolo.tilesfx.Tile.TextSize;
+import java.text.Normalizer;
+import java.text.Normalizer.Form;
 import java.util.Locale;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javafx.application.Platform;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
@@ -27,6 +31,8 @@ public class Dashboard extends HBox {
     private static boolean running = true;
     private String choiceValue = "Current Weather";
     private TextArea tempHumidity;
+    private String city;
+    TextField cityField;
     
     public Dashboard() {
         this.buildScreen();
@@ -65,7 +71,7 @@ public class Dashboard extends HBox {
         options.setTextFill(Color.WHITE);
         
         //Textfield for the user input city
-        TextField cityField = new TextField();
+        cityField = new TextField();
         
         Label cityLabel = new Label("Enter city: ");
         cityLabel.setTextFill(Color.WHITE);
@@ -171,5 +177,22 @@ public class Dashboard extends HBox {
     private void endApplication() {
         this.running = false;
         Platform.exit();
+    }
+    
+    public void getCity() {
+        String toSanitize = cityField.getText();
+        toSanitize = toSanitize.toLowerCase();
+        
+        toSanitize = Normalizer.normalize(toSanitize, Form.NFKC);
+        Pattern patternObj = Pattern.compile("[<>]");
+        Matcher matcherObj = patternObj.matcher(toSanitize);
+        if (matcherObj.find()) {
+            //TO DO: Alert
+            System.out.println("Invalid input");
+            cityField.setText("");
+        }
+        else if (Pattern.matches("[a-zA-Z0-9]", toSanitize)) {
+            city = toSanitize;
+        }
     }
 }
