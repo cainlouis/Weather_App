@@ -4,6 +4,9 @@ import eu.hansolo.tilesfx.Tile;
 import eu.hansolo.tilesfx.Tile.SkinType;
 import eu.hansolo.tilesfx.TileBuilder;
 import eu.hansolo.tilesfx.Tile.TextSize;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.text.Normalizer;
 import java.text.Normalizer.Form;
 import java.util.Locale;
@@ -29,12 +32,15 @@ import javafx.scene.text.TextAlignment;
 public class Dashboard extends HBox {
     //Flag to monitor the threads
     private static boolean running = true;
+    //EXECUTABLE_PATH for real Joystick output
+    private final String EXECUTABLE_PATH = "src/main/C++/DHT11";
     private String choiceValue = "Current Weather";
     private TextArea tempHumidity;
     private String city;
     TextField cityField;
     
-    public Dashboard() {
+    public Dashboard() throws IOException {
+        this.initiateProcess();
         this.buildScreen();
     }
     
@@ -121,10 +127,11 @@ public class Dashboard extends HBox {
                 .textAlignment(TextAlignment.CENTER)
                 .build();
         
-        /*TextArea tile for X axis and timestamp */
+        /*TextArea tile for temperature and humidity */
             
         tempHumidity = new TextArea();
         tempHumidity.setEditable(false);
+        tempHumidity.setWrapText(true);
         
         tempHumidity.setStyle("-fx-control-inner-background: #2A2A2A; "
                  + "-fx-text-inner-color: white;"
@@ -157,6 +164,7 @@ public class Dashboard extends HBox {
                 .title("Do you want to quit?")
                 .graphic(exit)
                 .build();
+        
         
         //Add tiles to Hbox
         HBox row1 = new HBox(clockTile, choiceTile, exitTile);
@@ -194,5 +202,37 @@ public class Dashboard extends HBox {
         else if (Pattern.matches("[a-zA-Z0-9]", toSanitize)) {
             city = toSanitize;
         }
+    }
+    private void initiateProcess() throws IOException {
+        ProcessBuilderClass processBuilderObj = new ProcessBuilderClass(EXECUTABLE_PATH);
+        Process processObj = processBuilderObj.startProcess();   
+        startThread(processObj);
+    }
+    private void startThread(Process processObj) {
+        Thread threadObj = new Thread(() -> {
+            try ( var reader = new BufferedReader(new InputStreamReader(processObj.getInputStream()))) {
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    runThread(line);
+                    Thread.sleep(1000);
+                }
+            }
+            catch (InterruptedException e) {
+                System.err.println("Thread got interrupted!");
+            }
+            catch (IOException e) {
+                System.err.println("IOexception!");
+            }
+        });
+        threadObj.setDaemon(true); //Set as Daemon so on exit, it kills the thread
+        threadObj.start(); //Start Thread
+    }
+    private void runThread(String line) {
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                tempHumidity.appendText(line + "\n");
+            }
+        });
     }
 }
