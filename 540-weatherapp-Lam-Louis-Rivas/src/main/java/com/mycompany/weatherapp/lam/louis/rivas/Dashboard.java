@@ -105,8 +105,11 @@ public class Dashboard extends HBox {
         //Create button and event handler
         Button update = new Button("Update");
         update.setOnAction((event) -> {
+            City city1 = new City(1.0, "Montreal", "Canada", 85.03, 10.56);
+            City city2 = new City(2.0, "Quebec", "Canada", 68.0, 10);
+            City[] cityArr = new City[] { city1, city2 };
             //TO-DO: remove later! invoke this only if City[] has more than one City object and pass City[] to MultipleCityNames
-            var multipleCityNameScene = new Scene(new MultipleCityNames(), 350, 300);
+            var multipleCityNameScene = new Scene(new MultipleCityNames(cityArr), 350, 300);
             App.theStage.setScene(multipleCityNameScene);
             //App.theStage
         });

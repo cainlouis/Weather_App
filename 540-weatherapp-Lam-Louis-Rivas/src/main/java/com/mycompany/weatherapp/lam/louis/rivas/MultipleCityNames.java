@@ -66,6 +66,6 @@ public class MultipleCityNames extends HBox {
         return cityArr;
     }
     private City getSelectedCity() {
-        reutrn selectedCity;
+        return selectedCity;
     }
 }
