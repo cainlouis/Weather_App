@@ -25,6 +25,6 @@ public class ReadJson {
         List <City> cities = Arrays.asList(mapper.readValue(Paths.get(jsonPath).toFile(), City[].class));
         return cities;
     }
-    
+       
     
 }
