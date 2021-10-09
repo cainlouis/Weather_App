@@ -106,7 +106,7 @@ public class Dashboard extends HBox {
         Button update = new Button("Update");
         update.setOnAction((event) -> {
             //TO-DO: remove later! invoke this only if City[] has more than one City object and pass City[] to MultipleCityNames
-            var multipleCityNameScene = new Scene(new MultipleCityNames(), 900, 600);
+            var multipleCityNameScene = new Scene(new MultipleCityNames(), 350, 300);
             App.theStage.setScene(multipleCityNameScene);
             //App.theStage
         });

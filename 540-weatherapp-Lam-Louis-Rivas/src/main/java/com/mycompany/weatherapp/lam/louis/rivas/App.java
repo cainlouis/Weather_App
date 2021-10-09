@@ -19,7 +19,7 @@ public class App extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         var scene = new Scene(new Dashboard(), 900, 600);
-        this.dashboardScene = scene;
+        App.dashboardScene = scene;
         App.theStage = stage;
         
         //Set the active scene
