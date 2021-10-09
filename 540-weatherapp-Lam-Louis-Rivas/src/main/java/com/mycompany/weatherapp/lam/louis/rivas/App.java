@@ -14,10 +14,12 @@ import javafx.stage.Stage;
 public class App extends Application {
 
     public static Stage theStage;
+    private static Scene dashboardScene;
     
     @Override
     public void start(Stage stage) throws IOException {
         var scene = new Scene(new Dashboard(), 900, 600);
+        this.dashboardScene = scene;
         App.theStage = stage;
         
         //Set the active scene
@@ -33,6 +35,9 @@ public class App extends Application {
 
     public static void main(String[] args) {
         launch();
+    }
+    public static Scene getDashboardScene() {
+        return dashboardScene;
     }
 
 }

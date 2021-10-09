@@ -13,6 +13,7 @@ import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javafx.application.Platform;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
@@ -99,12 +100,15 @@ public class Dashboard extends HBox {
                 .graphic(vb)
                 .build();
         
-                    /*Tile for update button*/
+        /*Tile for update button*/
                 
         //Create button and event handler
         Button update = new Button("Update");
         update.setOnAction((event) -> {
-            //TO DO:
+            //TO-DO: remove later! invoke this only if City[] has more than one City object and pass City[] to MultipleCityNames
+            var multipleCityNameScene = new Scene(new MultipleCityNames(), 900, 600);
+            App.theStage.setScene(multipleCityNameScene);
+            //App.theStage
         });
         
         //Tile 
@@ -189,6 +193,9 @@ public class Dashboard extends HBox {
     
     public void getCity() {
         String toSanitize = cityField.getText();
+        if (toSanitize == "") {
+            
+        }
         toSanitize = toSanitize.toLowerCase();
         
         toSanitize = Normalizer.normalize(toSanitize, Form.NFKC);
