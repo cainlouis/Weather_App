@@ -12,13 +12,13 @@ import java.util.Objects;
  * @author Rodrigo Rivas <rodrigo.rivas.org>
  */
 public class City {
-    private Double cityId; //Double as in the json there are some id that have a decimal.
+    private double cityId; //Double as in the json there are some id that have a decimal.
     private String cityName;
     private String country;
-    private Double longitude;
-    private Double latitude;
+    private double longitude;
+    private double latitude;
 
-    public City(Double cityId, String cityName, String country, Double longitude, Double latitude) {
+    public City(double cityId, String cityName, String country, double longitude, double latitude) {
         this.cityId = cityId;
         this.cityName = cityName;
         this.country = country;
@@ -26,7 +26,7 @@ public class City {
         this.latitude = latitude;
     }
 
-    public Double getCityId() {
+    public double getCityId() {
         return cityId;
     }
 
@@ -38,11 +38,11 @@ public class City {
         return country;
     }
 
-    public Double getLongitude() {
+    public double getLongitude() {
         return longitude;
     }
 
-    public Double getLatitude() {
+    public double getLatitude() {
         return latitude;
     }
 
