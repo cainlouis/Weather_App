@@ -3,6 +3,7 @@ package com.mycompany.weatherapp.lam.louis.rivas;
 
 import eu.hansolo.tilesfx.Tile;
 import eu.hansolo.tilesfx.TileBuilder;
+import java.util.Arrays;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
@@ -10,6 +11,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 
 /**
  *
@@ -18,26 +20,31 @@ import javafx.scene.layout.VBox;
 public class MultipleCityNames extends HBox {
     private City[] cityArr;
     private City selectedCity;
+    private Dashboard dashboard;
     
-    public MultipleCityNames(City[] cityArr) {
+    public MultipleCityNames(City[] cityArr, Dashboard dashboard) {
+        this.dashboard = dashboard;
         this.cityArr = cityArr;
         this.buildScreen();
     }
     
     private void buildScreen() {
         VBox citiesVBox = new VBox();
+        citiesVBox.setSpacing(15);
         HBox buttons = new HBox();
+        buttons.setSpacing(10);
         
         Label citiesLabel = new Label("Please choose which city you desire: ");
-        ChoiceBox citiesChoiceBox = new ChoiceBox();
-        for (City cityObj : cityArr) {
-            citiesChoiceBox.getItems().add(cityObj);
-        }
+        citiesLabel.setTextFill(Color.WHITE);
         
+        ChoiceBox<City> citiesChoiceBox = new ChoiceBox<>();
+        citiesChoiceBox.getItems().addAll(Arrays.asList(cityArr));
+        citiesChoiceBox.getSelectionModel().select(0);
         
         Button confirmBtn = new Button("Confirm");
         confirmBtn.setOnAction((event) -> {
-            this.selectedCity = citiesChoiceBox.getSelectionModel().getSelectedItem();
+            this.selectedCity = (City) citiesChoiceBox.getSelectionModel().getSelectedItem();
+            this.dashboard.setSelectedCity(selectedCity);
             returnToDashboard();
         });
         
@@ -62,10 +69,10 @@ public class MultipleCityNames extends HBox {
     private void returnToDashboard() {
         App.theStage.setScene(App.getDashboardScene());
     }
-    private City[] getCityArr() {
+    public City[] getCityArr() {
         return cityArr;
     }
-    private City getSelectedCity() {
+    public City getSelectedCity() {
         return selectedCity;
     }
 }

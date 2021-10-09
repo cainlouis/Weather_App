@@ -38,6 +38,7 @@ public class Dashboard extends HBox {
     private String choiceValue = "Current Weather";
     private TextArea tempHumidity;
     private String city;
+    private City selectedCity;
     TextField cityField;
     
     public Dashboard() throws IOException {
@@ -109,9 +110,12 @@ public class Dashboard extends HBox {
             City city2 = new City(2.0, "Quebec", "Canada", 68.0, 10);
             City[] cityArr = new City[] { city1, city2 };
             //TO-DO: remove later! invoke this only if City[] has more than one City object and pass City[] to MultipleCityNames
-            var multipleCityNameScene = new Scene(new MultipleCityNames(cityArr), 350, 300);
-            App.theStage.setScene(multipleCityNameScene);
-            //App.theStage
+            MultipleCityNames multipleCities = new MultipleCityNames(cityArr, this);
+            var multipleCityNameScene = new Scene(multipleCities, 350, 300);
+            App.theStage.setScene(multipleCityNameScene);            
+            
+            System.out.println(selectedCity); //TO-DO: BIG ISSUE - This reads the selected city without user being able to confirm first!
+            //Fix by having button in ChoiceBox tile that will update the city first, then you can press update forecast
         });
         
         //Tile 
@@ -244,5 +248,8 @@ public class Dashboard extends HBox {
                 tempHumidity.appendText(line + "\n");
             }
         });
+    }
+    public void setSelectedCity(City selectedCity) {
+        this.selectedCity = selectedCity;
     }
 }
