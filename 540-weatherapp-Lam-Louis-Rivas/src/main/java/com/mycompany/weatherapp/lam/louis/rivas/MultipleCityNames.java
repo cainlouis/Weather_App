@@ -30,14 +30,14 @@ public class MultipleCityNames extends HBox {
         
         Label citiesLabel = new Label("Please choose which city you desire: ");
         ChoiceBox citiesChoiceBox = new ChoiceBox();
-        for (City cityObj in cityArr) {
+        for (City cityObj : cityArr) {
             citiesChoiceBox.getItems().add(cityObj);
         }
         
         
         Button confirmBtn = new Button("Confirm");
         confirmBtn.setOnAction((event) -> {
-            this.selectedCity = citiesChoiceBox.getValue();
+            this.selectedCity = citiesChoiceBox.getSelectionModel().getSelectedItem();
             returnToDashboard();
         });
         
