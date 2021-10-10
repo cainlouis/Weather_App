@@ -9,7 +9,7 @@ import java.util.Objects;
 
 /**
  *
- * @author Rodrigo Rivas <rodrigo.rivas.org>
+ * @author Rodrigo Rivas
  */
 public class City {
     private double cityId; //Double as in the json there are some id that have a decimal.

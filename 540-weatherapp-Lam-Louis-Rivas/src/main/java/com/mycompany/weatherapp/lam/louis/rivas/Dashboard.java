@@ -25,6 +25,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.TextAlignment;
+import com.mycompany.weatherapp.lam.louis.rivas.Notification;
 
 /**
  *
@@ -38,9 +39,11 @@ public class Dashboard extends HBox {
     private String choiceValue = "Current Weather";
     private TextArea tempHumidity;
     private String city;
-    private City selectedCity;
     private TextField cityField;
+    private Notification notify = new Notification();
+    private City selectedCity;
     private String chosenCity;
+
     
     public Dashboard() throws IOException {
         this.initiateProcess();
@@ -125,18 +128,25 @@ public class Dashboard extends HBox {
         //Create button and event handler
         Button update = new Button("Update");
         update.setOnAction((event) -> {
-            /*City city1 = new City(1.0, "Montreal", "Canada", 85.03, 10.56);
-            City city2 = new City(2.0, "Quebec", "Canada", 68.0, 10);
-            City[] cityArr = new City[] { city1, city2 };
-            //TO-DO: remove later! invoke this only if City[] has more than one City object and pass City[] to MultipleCityNames
-            MultipleCityNames multipleCities = new MultipleCityNames(cityArr, this);
-            var multipleCityNameScene = new Scene(multipleCities, 350, 300);
-            App.theStage.setScene(multipleCityNameScene);
-            
-            System.out.println(selectedCity); //TO-DO: BIG ISSUE - This reads the selected city without user being able to confirm first!
-            //Fix by having button in ChoiceBox tile that will update the city first, then you can press update forecast */
-            
-            cityCBFp.setVisible(true);
+            if (cityField.getText().equals("")) {
+                notify.ErrorDialog("City field is empty, enter a city name.");
+            }
+            else {
+                getCity();
+                //TO DO:
+                /*City city1 = new City(1.0, "Montreal", "Canada", 85.03, 10.56);
+                City city2 = new City(2.0, "Quebec", "Canada", 68.0, 10);
+                City[] cityArr = new City[] { city1, city2 };
+                //TO-DO: remove later! invoke this only if City[] has more than one City object and pass City[] to MultipleCityNames
+                MultipleCityNames multipleCities = new MultipleCityNames(cityArr, this);
+                var multipleCityNameScene = new Scene(multipleCities, 350, 300);
+                App.theStage.setScene(multipleCityNameScene);
+
+                System.out.println(selectedCity); //TO-DO: BIG ISSUE - This reads the selected city without user being able to confirm first!
+                //Fix by having button in ChoiceBox tile that will update the city first, then you can press update forecast */
+                
+                cityCBFp.setVisible(true);
+            }
         });
         
         //Tile 
@@ -231,6 +241,7 @@ public class Dashboard extends HBox {
         Matcher matcherObj = patternObj.matcher(toSanitize);
         if (matcherObj.find()) {
             //TO DO: Alert
+            notify.ErrorDialog("Invalid character(s) has been found, only use letters for the city name");
             System.out.println("Invalid input");
             cityField.setText("");
         }
