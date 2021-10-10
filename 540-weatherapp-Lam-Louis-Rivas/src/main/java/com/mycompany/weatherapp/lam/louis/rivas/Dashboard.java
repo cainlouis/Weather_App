@@ -40,6 +40,7 @@ public class Dashboard extends HBox {
     private String city;
     private City selectedCity;
     private TextField cityField;
+    private String chosenCity;
     
     public Dashboard() throws IOException {
         this.initiateProcess();
@@ -84,6 +85,19 @@ public class Dashboard extends HBox {
         Label cityLabel = new Label("Enter city: ");
         cityLabel.setTextFill(Color.WHITE);
         
+        //ChoiceBox for the cities
+        ChoiceBox cityCB = new ChoiceBox();
+        
+        //Leaving cityCB to be populated on update
+        
+        //set on action
+        cityCB.setOnAction((event) -> {
+            chosenCity = cityCB.getValue().toString();
+        });
+        //Label for cityCB
+        Label cityCBLabel = new Label("Choose the city you want: ");
+        cityCBLabel.setTextFill(Color.WHITE);
+        
         //Hbox for the choiceBox
         HBox cbBox = new HBox(choiceBox);
         FlowPane cbFp = new FlowPane(options, cbBox);
@@ -92,7 +106,12 @@ public class Dashboard extends HBox {
         HBox txtBox = new HBox(cityField);
         FlowPane txtFp = new FlowPane(cityLabel, txtBox);
         
-        VBox vb = new VBox(cbFp, txtFp);
+        //Hbox for the cityCB 
+        HBox cityCBBox = new HBox(cityCB);
+        FlowPane cityCBFp = new FlowPane(cityCBLabel, cityCB);
+        cityCBFp.setVisible(false);
+        
+        VBox vb = new VBox(cbFp, txtFp, cityCBFp);
         
         var choiceTile = TileBuilder.create()
                 .skinType(SkinType.CUSTOM)
@@ -106,7 +125,7 @@ public class Dashboard extends HBox {
         //Create button and event handler
         Button update = new Button("Update");
         update.setOnAction((event) -> {
-            City city1 = new City(1.0, "Montreal", "Canada", 85.03, 10.56);
+            /*City city1 = new City(1.0, "Montreal", "Canada", 85.03, 10.56);
             City city2 = new City(2.0, "Quebec", "Canada", 68.0, 10);
             City[] cityArr = new City[] { city1, city2 };
             //TO-DO: remove later! invoke this only if City[] has more than one City object and pass City[] to MultipleCityNames
@@ -115,7 +134,9 @@ public class Dashboard extends HBox {
             App.theStage.setScene(multipleCityNameScene);
             
             System.out.println(selectedCity); //TO-DO: BIG ISSUE - This reads the selected city without user being able to confirm first!
-            //Fix by having button in ChoiceBox tile that will update the city first, then you can press update forecast
+            //Fix by having button in ChoiceBox tile that will update the city first, then you can press update forecast */
+            
+            cityCBFp.setVisible(true);
         });
         
         //Tile 
