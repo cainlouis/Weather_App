@@ -133,19 +133,30 @@ public class Dashboard extends HBox {
             }
             else {
                 getCity();
-                //TO DO:
-                /*City city1 = new City(1.0, "Montreal", "Canada", 85.03, 10.56);
+                //TO DO: Remove the dummy data under later
+                City city1 = new City(1.0, "Montreal", "Canada", 85.03, 10.56);
                 City city2 = new City(2.0, "Quebec", "Canada", 68.0, 10);
                 City[] cityArr = new City[] { city1, city2 };
-                //TO-DO: remove later! invoke this only if City[] has more than one City object and pass City[] to MultipleCityNames
-                MultipleCityNames multipleCities = new MultipleCityNames(cityArr, this);
-                var multipleCityNameScene = new Scene(multipleCities, 350, 300);
-                App.theStage.setScene(multipleCityNameScene);
 
-                System.out.println(selectedCity); //TO-DO: BIG ISSUE - This reads the selected city without user being able to confirm first!
-                //Fix by having button in ChoiceBox tile that will update the city first, then you can press update forecast */
-                
-                cityCBFp.setVisible(true);
+                if (cityArr.length > 1) {
+                    if (cityCB.getValue() == null) {
+                        cityCB.getItems().clear();
+                        for (City city : cityArr) {
+                            //Change the data here
+                            cityCB.getItems().add(city.getCityName() + ", " + city.getCountry());
+                        }
+                        notify.ErrorDialog("There's " + cityArr.length + " with the same name choose the one you want.");
+                        cityCBFp.setVisible(true);
+                    }
+                    else {
+                        if (notify.confirmationDialog("Are you sure you want to see the weather for " + cityCB.getValue().toString() + "?")) {
+                        //TO DO: set selectedCity to the chosen city and get the weather
+                            for (City city : cityArr) {
+                                //if the city name and country == chosenCity setSelectedCity(city)
+                            }
+                        }
+                    }
+                }
             }
         });
         
