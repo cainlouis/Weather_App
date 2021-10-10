@@ -24,6 +24,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.TextAlignment;
+import com.mycompany.weatherapp.lam.louis.rivas.Notification;
 
 /**
  *
@@ -38,6 +39,7 @@ public class Dashboard extends HBox {
     private TextArea tempHumidity;
     private String city;
     TextField cityField;
+    private Notification notify = new Notification();
     
     public Dashboard() throws IOException {
         this.initiateProcess();
@@ -104,7 +106,13 @@ public class Dashboard extends HBox {
         //Create button and event handler
         Button update = new Button("Update");
         update.setOnAction((event) -> {
-            //TO DO:
+            if (cityField.getText().equals("")) {
+                notify.ErrorDialog("City field is empty, enter a city name.");
+            }
+            else {
+                getCity();
+                //TO DO:
+            }
         });
         
         //Tile 
@@ -196,6 +204,7 @@ public class Dashboard extends HBox {
         Matcher matcherObj = patternObj.matcher(toSanitize);
         if (matcherObj.find()) {
             //TO DO: Alert
+            notify.ErrorDialog("Invalid character(s) has been found, only use letters for the city name");
             System.out.println("Invalid input");
             cityField.setText("");
         }
