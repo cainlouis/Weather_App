@@ -157,6 +157,9 @@ public class Dashboard extends HBox {
                         }
                     }
                 }
+                else {
+                    cityCBFp.setVisible(false);
+                }
             }
         });
         
