@@ -26,10 +26,10 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.TextAlignment;
 import com.mycompany.weatherapp.lam.louis.rivas.Notification;
 
-/**
+/***
  *
  * @author Daniel Lam, Rodrigo Rivas, and Nael Louis
- */
+ **/
 public class Dashboard extends HBox {
     //Flag to monitor the threads
     private static boolean running = true;
