@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.mycompany.weatherapp.lam.louis.rivas;
 
 import java.util.Map;
@@ -10,7 +5,7 @@ import java.util.Objects;
 
 /**
  *
- * @author Rodrigo Rivas <rodrigo.rivas.org>
+ * @author Rodrigo Rivas
  */
 public class City {
     private double id; //double as in the json there are some id that have a decimal.
