@@ -11,9 +11,14 @@ import java.net.URL;
  *
  * @author Nael Louis
  */
+//website = "https://api.openweathermap.org/data/2.5/onecall/"
+// Key = "c9ade50378e0af933f0b33d8eec7eafe"
+// "&appid={c9ade50378e0af933f0b33d8eec7eafe}"
 public class HTTPURLConnection {
+    //private final String appId = "&appid={c9ade50378e0af933f0b33d8eec7eafe}";
 
     String sendRequest(String website, String Key, String params) throws IOException {
+
         StringBuilder data = new StringBuilder();
 
         try {

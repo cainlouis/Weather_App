@@ -48,6 +48,8 @@ public class Dashboard extends HBox {
     public Dashboard() throws IOException {
         this.initiateProcess();
         this.buildScreen();
+        ReadJson rj = new ReadJson();
+        rj.readCities();
     }
     
     public void buildScreen() {
@@ -62,6 +64,7 @@ public class Dashboard extends HBox {
                 .locale(Locale.CANADA)
                 .running(true)
                 .build();
+        
         
         /*Tile for choiceBox */
                 
@@ -134,16 +137,14 @@ public class Dashboard extends HBox {
             else {
                 getCity();
                 //TO DO: Remove the dummy data under later
-                City city1 = new City(1.0, "Montreal", "Canada", 85.03, 10.56);
-                City city2 = new City(2.0, "Quebec", "Canada", 68.0, 10);
-                City[] cityArr = new City[] { city1, city2 };
+                City[] cityArr = new City[] { };
 
                 if (cityArr.length > 1) {
                     if (cityCB.getValue() == null) {
                         cityCB.getItems().clear();
                         for (City city : cityArr) {
                             //Change the data here
-                            cityCB.getItems().add(city.getCityName() + ", " + city.getCountry());
+                            //cityCB.getItems().add();
                         }
                         notify.ErrorDialog("There's " + cityArr.length + " with the same name choose the one you want.");
                         cityCBFp.setVisible(true);
