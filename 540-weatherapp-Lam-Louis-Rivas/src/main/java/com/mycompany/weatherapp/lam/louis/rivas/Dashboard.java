@@ -44,6 +44,8 @@ public class Dashboard extends HBox {
     public Dashboard() throws IOException {
         this.initiateProcess();
         this.buildScreen();
+        ReadJson rj = new ReadJson();
+        rj.readCities();
     }
     
     public void buildScreen() {
@@ -58,6 +60,7 @@ public class Dashboard extends HBox {
                 .locale(Locale.CANADA)
                 .running(true)
                 .build();
+        
         
         /*Tile for choiceBox */
                 

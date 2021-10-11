@@ -1,5 +1,6 @@
 package com.mycompany.weatherapp.lam.louis.rivas;
 
+import java.util.Map;
 import java.util.Objects;
 
 /**
@@ -7,68 +8,38 @@ import java.util.Objects;
  * @author Rodrigo Rivas
  */
 public class City {
-    private double cityId; //Double as in the json there are some id that have a decimal.
-    private String cityName;
+    private double id; //double as in the json there are some id that have a decimal.
+    private String name;
+    private String state;
     private String country;
-    private double longitude;
-    private double latitude;
+    private Map<String, Double> coord;
 
-    public City(double cityId, String cityName, String country, double longitude, double latitude) {
-        this.cityId = cityId;
-        this.cityName = cityName;
-        this.country = country;
-        this.longitude = longitude;
-        this.latitude = latitude;
+
+    public double getId() {
+        return id;
     }
 
-    public double getCityId() {
-        return cityId;
+    public String getName() {
+        return name;
     }
 
-    public String getCityName() {
-        return cityName;
+    public String getState() {
+        return state;
     }
 
     public String getCountry() {
         return country;
     }
 
-    public double getLongitude() {
-        return longitude;
-    }
-
-    public double getLatitude() {
-        return latitude;
+    public Map<String,Double> getCoord() {
+        return coord;
     }
 
     @Override
-    public int hashCode() {
-        int hash = 7;
-        hash = 89 * hash + Objects.hashCode(this.cityId);
-        hash = 89 * hash + Objects.hashCode(this.country);
-        return hash;
+    public String toString() {
+        return "City:" + name + ", Country:" + country + ", Longitude: " + coord.get("lon") + ", Latitude: " + coord.get("lat");
     }
 
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final City other = (City) obj;
-        if (!Objects.equals(this.country, other.country)) {
-            return false;
-        }
-        if (!Objects.equals(this.cityId, other.cityId)) {
-            return false;
-        }
-        return true;
-    }
     
     
 }
