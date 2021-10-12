@@ -42,14 +42,16 @@ public class Dashboard extends HBox {
     private String city;
     private TextField cityField;
     private Notification notify = new Notification();
+    private ReadJson rj;
     private City selectedCity;
     private String chosenCity;
+
 
     
     public Dashboard() throws IOException {
         this.initiateProcess();
         this.buildScreen();
-        
+        rj = new ReadJson();
     }
     
     public void buildScreen() {
