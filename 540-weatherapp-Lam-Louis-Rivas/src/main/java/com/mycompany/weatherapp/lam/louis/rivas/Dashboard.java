@@ -26,11 +26,12 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.TextAlignment;
 import com.mycompany.weatherapp.lam.louis.rivas.Notification;
+import java.util.List;
 
-/**
+/***
  *
  * @author Daniel Lam, Rodrigo Rivas, and Nael Louis
- */
+ **/
 public class Dashboard extends HBox {
     //Flag to monitor the threads
     private static boolean running = true;
@@ -241,7 +242,10 @@ public class Dashboard extends HBox {
         this.running = false;
         Platform.exit();
     }
-    
+    /*
+     * This method sanatizes the input from the user in order to look
+       for the city.
+    */
     public void getCity() {
         String toSanitize = cityField.getText();
         if (toSanitize == "") {
@@ -293,9 +297,5 @@ public class Dashboard extends HBox {
                 tempHumidity.appendText(line + "\n");
             }
         });
-    }
-    public void setSelectedCity(City selectedCity) {
-        this.selectedCity = selectedCity;
-    }
-    
+    }  
 }
