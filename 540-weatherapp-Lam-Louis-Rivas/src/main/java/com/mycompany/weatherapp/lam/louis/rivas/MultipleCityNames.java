@@ -44,7 +44,7 @@ public class MultipleCityNames extends HBox {
         Button confirmBtn = new Button("Confirm");
         confirmBtn.setOnAction((event) -> {
             this.selectedCity = (City) citiesChoiceBox.getSelectionModel().getSelectedItem();
-            this.dashboard.setSelectedCity(selectedCity);
+            //this.dashboard.setSelectedCity(selectedCity);
             returnToDashboard();
         });
         
