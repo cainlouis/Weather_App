@@ -41,12 +41,12 @@ public class Dashboard extends HBox {
     private String city;
     TextField cityField;
     private Notification notify = new Notification();
-    ReadJson rj = new ReadJson();
+    ReadJson rj;
     
     public Dashboard() throws IOException {
         this.initiateProcess();
         this.buildScreen();
-        
+        rj = new ReadJson();
     }
     
     public void buildScreen() {
