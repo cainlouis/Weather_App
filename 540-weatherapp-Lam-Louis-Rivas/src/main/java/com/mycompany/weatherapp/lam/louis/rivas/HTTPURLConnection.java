@@ -13,21 +13,18 @@ import java.net.URL;
  * @author Nael Louis 
  */
 
-//website = "https://api.openweathermap.org/data/2.5/onecall/"
-// Key = "c9ade50378e0af933f0b33d8eec7eafe"
-// "&appid={c9ade50378e0af933f0b33d8eec7eafe}"
 public class HTTPURLConnection {
     
-    //private final String appId = "&appid={c9ade50378e0af933f0b33d8eec7eafe}";
+    private final String key = "&appid=c9ade50378e0af933f0b33d8eec7eafe";
     
-     String sendRequest(String website, String Key, String params) throws IOException{
+     String sendRequest(Double lat,Double lon) throws IOException{
     
      StringBuilder data = new StringBuilder();
      
      try {
            //Create the URL
-           URL url = new URL(website + params);
-           
+           String fetchUrl = "https://api.openweathermap.org/data/2.5/onecall?lat="+lat+"&lon="+lon+"&exclude=minutely,hourly&units=metric"+key;
+           URL url = new URL(fetchUrl);
            //Open the connection
            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
            
