@@ -25,6 +25,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.TextAlignment;
 import com.mycompany.weatherapp.lam.louis.rivas.Notification;
+import java.util.List;
 
 /***
  *
@@ -44,8 +45,6 @@ public class Dashboard extends HBox {
     public Dashboard() throws IOException {
         this.initiateProcess();
         this.buildScreen();
-        ReadJson rj = new ReadJson();
-        rj.readCities();
     }
     
     public void buildScreen() {
@@ -197,7 +196,10 @@ public class Dashboard extends HBox {
         this.running = false;
         Platform.exit();
     }
-    
+    /*
+     * This method sanatizes the input from the user in order to look
+       for the city.
+    */
     public void getCity() {
         String toSanitize = cityField.getText();
         toSanitize = toSanitize.toLowerCase();
@@ -247,4 +249,6 @@ public class Dashboard extends HBox {
             }
         });
     }
+    
+    
 }
