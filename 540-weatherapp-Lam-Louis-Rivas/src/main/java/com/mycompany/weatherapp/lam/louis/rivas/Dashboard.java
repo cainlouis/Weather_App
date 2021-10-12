@@ -13,6 +13,7 @@ import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javafx.application.Platform;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
@@ -27,10 +28,10 @@ import javafx.scene.text.TextAlignment;
 import com.mycompany.weatherapp.lam.louis.rivas.Notification;
 import java.util.List;
 
-/**
+/***
  *
  * @author Daniel Lam, Rodrigo Rivas, and Nael Louis
- */
+ **/
 public class Dashboard extends HBox {
     //Flag to monitor the threads
     private static boolean running = true;
@@ -39,9 +40,13 @@ public class Dashboard extends HBox {
     private String choiceValue = "Current Weather";
     private TextArea tempHumidity;
     private String city;
-    TextField cityField;
+    private TextField cityField;
     private Notification notify = new Notification();
-    ReadJson rj;
+    private ReadJson rj;
+    private City selectedCity;
+    private String chosenCity;
+
+
     
     public Dashboard() throws IOException {
         this.initiateProcess();
@@ -88,6 +93,19 @@ public class Dashboard extends HBox {
         Label cityLabel = new Label("Enter city: ");
         cityLabel.setTextFill(Color.WHITE);
         
+        //ChoiceBox for the cities
+        ChoiceBox cityCB = new ChoiceBox();
+        
+        //Leaving cityCB to be populated on update
+        
+        //set on action
+        cityCB.setOnAction((event) -> {
+            chosenCity = cityCB.getValue().toString();
+        });
+        //Label for cityCB
+        Label cityCBLabel = new Label("Choose the city you want: ");
+        cityCBLabel.setTextFill(Color.WHITE);
+        
         //Hbox for the choiceBox
         HBox cbBox = new HBox(choiceBox);
         FlowPane cbFp = new FlowPane(options, cbBox);
@@ -96,7 +114,12 @@ public class Dashboard extends HBox {
         HBox txtBox = new HBox(cityField);
         FlowPane txtFp = new FlowPane(cityLabel, txtBox);
         
-        VBox vb = new VBox(cbFp, txtFp);
+        //Hbox for the cityCB 
+        HBox cityCBBox = new HBox(cityCB);
+        FlowPane cityCBFp = new FlowPane(cityCBLabel, cityCB);
+        cityCBFp.setVisible(false);
+        
+        VBox vb = new VBox(cbFp, txtFp, cityCBFp);
         
         var choiceTile = TileBuilder.create()
                 .skinType(SkinType.CUSTOM)
@@ -105,7 +128,7 @@ public class Dashboard extends HBox {
                 .graphic(vb)
                 .build();
         
-                    /*Tile for update button*/
+        /*Tile for update button*/
                 
         //Create button and event handler
         Button update = new Button("Update");
@@ -115,7 +138,31 @@ public class Dashboard extends HBox {
             }
             else {
                 getCity();
-                //TO DO:
+                //TO DO: Remove the dummy data under later
+                City[] cityArr = new City[] { };
+
+                if (cityArr.length > 1) {
+                    if (cityCB.getValue() == null) {
+                        cityCB.getItems().clear();
+                        for (City city : cityArr) {
+                            //Change the data here
+                            //cityCB.getItems().add();
+                        }
+                        notify.ErrorDialog("There's " + cityArr.length + " with the same name choose the one you want.");
+                        cityCBFp.setVisible(true);
+                    }
+                    else {
+                        if (notify.confirmationDialog("Are you sure you want to see the weather for " + cityCB.getValue().toString() + "?")) {
+                        //TO DO: set selectedCity to the chosen city and get the weather
+                            for (City city : cityArr) {
+                                //if the city name and country == chosenCity setSelectedCity(city)
+                            }
+                        }
+                    }
+                }
+                else {
+                    cityCBFp.setVisible(false);
+                }
             }
         });
         
@@ -204,6 +251,9 @@ public class Dashboard extends HBox {
     */
     public void getCity() {
         String toSanitize = cityField.getText();
+        if (toSanitize == "") {
+            
+        }
         toSanitize = toSanitize.toLowerCase();
         
         toSanitize = Normalizer.normalize(toSanitize, Form.NFKC);
@@ -250,7 +300,5 @@ public class Dashboard extends HBox {
                 tempHumidity.appendText(line + "\n");
             }
         });
-    }
-    
-    
+    }  
 }
