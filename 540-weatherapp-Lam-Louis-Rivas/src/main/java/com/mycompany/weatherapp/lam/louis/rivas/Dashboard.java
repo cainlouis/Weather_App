@@ -95,6 +95,7 @@ public class Dashboard extends HBox {
         
         //ChoiceBox for the cities
         ChoiceBox cityCB = new ChoiceBox();
+        cityCB.setPrefWidth(200);
         
         //Leaving cityCB to be populated on update
         
@@ -138,24 +139,33 @@ public class Dashboard extends HBox {
             }
             else {
                 getCity();
-                //TO DO: Remove the dummy data under later
-                City[] cityArr = new City[] { };
-
-                if (cityArr.length > 1) {
+                //TO DO: get the list of city that has the same name as the input
+                List<City> citiesFromInput = rj.searchCities(cityField.getText());
+                int size = citiesFromInput.size();
+                //if there's more than 1
+                if (size > 1) {
+                    //check if the user has not already made a choice
                     if (cityCB.getValue() == null) {
+                        //clear the choicebox to be sure to not get cities from another input
                         cityCB.getItems().clear();
-                        for (City city : cityArr) {
-                            //Change the data here
-                            //cityCB.getItems().add();
+                        for (City city : citiesFromInput) {
+                            //add the cities with the same name to the choicebox
+                            cityCB.getItems().add(city.toString());
                         }
-                        notify.ErrorDialog("There's " + cityArr.length + " with the same name choose the one you want.");
+                        //prompt the user to chose from the choicebox
+                        notify.ErrorDialog("There's " + size + " with the same name choose the one you want.");
+                        //set the choicebox to visible
                         cityCBFp.setVisible(true);
                     }
                     else {
-                        if (notify.confirmationDialog("Are you sure you want to see the weather for " + cityCB.getValue().toString() + "?")) {
+                        //else prompt the user to confirm their choice and proceed accordingly
+                        if (notify.confirmationDialog("Are you sure you want to see the weather for " + chosenCity + "?")) {
                         //TO DO: set selectedCity to the chosen city and get the weather
-                            for (City city : cityArr) {
-                                //if the city name and country == chosenCity setSelectedCity(city)
+                            for (City city : citiesFromInput) {
+                                //if the city == chosenCity selectedCity = city
+                                if (city.toString().equals(chosenCity)) {
+                                    selectedCity = city;
+                                }
                             }
                         }
                     }
