@@ -7,12 +7,10 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-
 /**
  *
- * @author Nael Louis 
+ * @author Nael Louis
  */
-
 public class HTTPURLConnection {
     
     private final String key = "&appid=c9ade50378e0af933f0b33d8eec7eafe";
@@ -48,17 +46,11 @@ public class HTTPURLConnection {
            } else {
                 System.err.println("Wrong response code: " + responseCode);
             }
-           
-           
-       } catch (IOException e) {
-                System.out.println(e.getMessage());
-       }
 
-     
-     return data.toString();
-     }
-     
-     
-     
-     
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
+
+        return data.toString();
+    }
 }
