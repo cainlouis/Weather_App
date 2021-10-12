@@ -49,6 +49,7 @@ public class Dashboard extends HBox {
     public Dashboard() throws IOException {
         this.initiateProcess();
         this.buildScreen();
+        
     }
     
     public void buildScreen() {
