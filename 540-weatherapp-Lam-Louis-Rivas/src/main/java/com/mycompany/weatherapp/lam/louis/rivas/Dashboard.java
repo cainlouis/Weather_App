@@ -356,7 +356,7 @@ public class Dashboard extends HBox {
         threadObj.start(); //Start Thread
     }
     private void runThread(String line) {
-        Platform.runLater(new Runnable() {
+        Platform.runLater(new Runnable() { //TO-DO: test without Platform.runLater()
             @Override
             public void run() {
                 tempHumidity.appendText(line + "\n");
