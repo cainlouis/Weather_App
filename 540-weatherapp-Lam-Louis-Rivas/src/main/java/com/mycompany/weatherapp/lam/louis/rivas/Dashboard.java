@@ -214,12 +214,16 @@ public class Dashboard extends HBox {
                     try {
                         json = httpConnection.sendRequest(coord.get("lat"), coord.get("lon"));
                         Weather weather = rj.readCurrentAPI(json);
-                        String weatherTxt = "Temp: " + weather.getTemp() + "\n" + " Humidity: " + weather.getHumidity() + "\n"
+                        String weatherTxt = "Temperature: " + weather.getTemp() + "\n" + " Humidity: " + weather.getHumidity() + "\n"
                                 + weather.getAlertEvent() + "\n" + weather.getAlertDesc();
                         weatherField.setText(weatherTxt);
                         Image image = new Image(weather.getIcon());
                         imgTile.setImage(image);
                         imgTile.setText(weather.getDescription());
+                        if (choiceValue.equals("7 days forcast")) {
+                            List<Weather> sevenDays= rj.read7DaysAPI(json);
+                            App.theStage.setScene(new Scene(new SevenDayForecast(sevenDays)));
+                        }
                     } catch (IOException ex) {
                         Logger.getLogger(Dashboard.class.getName()).log(Level.SEVERE, null, ex);
                     }
