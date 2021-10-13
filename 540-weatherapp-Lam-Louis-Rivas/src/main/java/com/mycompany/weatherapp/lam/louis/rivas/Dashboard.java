@@ -356,13 +356,11 @@ public class Dashboard extends HBox {
         threadObj.start(); //Start Thread
     }
     private void runThread(String line) {
-        while (running) {
-            Platform.runLater(new Runnable() {
-                @Override
-                public void run() {
-                    tempHumidity.appendText(line + "\n");
-                }
-            });
-        }
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                tempHumidity.appendText(line + "\n");
+            }
+        });
     }  
 }
