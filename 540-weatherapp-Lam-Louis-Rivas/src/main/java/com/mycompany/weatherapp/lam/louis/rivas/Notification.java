@@ -30,8 +30,8 @@ public class Notification {
      */
     public void errorDialog(String message) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("Error Dialog");
-        alert.setHeaderText("An Error has Occured!");
+        alert.setTitle("Information Dialog");
+        alert.setHeaderText("For your information!");
         alert.setContentText(message);
 
         alert.showAndWait();
