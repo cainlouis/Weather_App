@@ -11,6 +11,13 @@ package com.mycompany.weatherapp.lam.louis.rivas;
  */
 public class Weather {
     private String temp;
+    private String sunrise;
+    private String sunset;
+    private String pressure;
+    private String uv;
+    private String visibility;
+    private String windSpeed;
+    private String windGust;
     private String maxTemp;
     private String minTemp;
     private String humidity;
@@ -82,6 +89,62 @@ public class Weather {
 
     public void setAlertDesc(String alertDesc) {
         this.alertDesc = alertDesc;
+    }
+
+    public String getSunrise() {
+        return sunrise;
+    }
+
+    public void setSunrise(String sunrise) {
+        this.sunrise = sunrise;
+    }
+
+    public String getSunset() {
+        return sunset;
+    }
+
+    public void setSunset(String sunset) {
+        this.sunset = sunset;
+    }
+
+    public String getPressure() {
+        return pressure;
+    }
+
+    public void setPressure(String pressure) {
+        this.pressure = pressure;
+    }
+
+    public String getUv() {
+        return uv;
+    }
+
+    public void setUv(String uv) {
+        this.uv = uv;
+    }
+
+    public String getVisibility() {
+        return visibility;
+    }
+
+    public void setVisibility(String visibility) {
+        this.visibility = visibility;
+    }
+
+    public String getWindSpeed() {
+        return windSpeed;
+    }
+
+    public void setWindSpeed(String windSpeed) {
+        this.windSpeed = windSpeed;
+    }
+
+    public String getWindGust() {
+        return windGust;
+    }
+
+    public void setWindGust(String windGust) {
+        this.windGust = windGust;
     }
     
     
