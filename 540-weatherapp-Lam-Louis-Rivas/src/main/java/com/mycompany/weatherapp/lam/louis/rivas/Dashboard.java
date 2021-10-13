@@ -27,6 +27,9 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.TextAlignment;
 import com.mycompany.weatherapp.lam.louis.rivas.Notification;
 import java.util.List;
+import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /***
  *
@@ -34,7 +37,7 @@ import java.util.List;
  **/
 public class Dashboard extends HBox {
     //Flag to monitor the threads
-    private static boolean running = true;
+    private boolean running = true;
     //EXECUTABLE_PATH for real Joystick output
     private final String EXECUTABLE_PATH = "src/main/C++/DHT11";
     private String choiceValue = "Current Weather";
@@ -42,13 +45,19 @@ public class Dashboard extends HBox {
     private String city;
     private TextField cityField;
     private Notification notify = new Notification();
+    private ReadJson rj;
     private City selectedCity;
     private String chosenCity;
+    private TextArea weatherField;
+    private HTTPURLConnection httpConnection;
+
 
     
     public Dashboard() throws IOException {
         this.initiateProcess();
         this.buildScreen();
+        rj = new ReadJson();
+        httpConnection = new HTTPURLConnection();
     }
     
     public void buildScreen() {
@@ -64,6 +73,37 @@ public class Dashboard extends HBox {
                 .running(true)
                 .build();
         
+        //Tile using a dummy image for the moment
+        var imgTile = TileBuilder.create()
+                .skinType(SkinType.IMAGE)
+                .prefSize(350, 150)
+                .textSize(TextSize.BIGGER)
+                .image(new Image(this.getClass().getResourceAsStream("/images/sunny-clip-art.png")))
+                .imageMask(Tile.ImageMask.ROUND)
+                .text("It will be sunny today with cloudy periods")
+                .textAlignment(TextAlignment.CENTER)
+                .build();
+        
+        /*TextArea tile for the weather*/
+        weatherField = new TextArea();
+        weatherField.setEditable(false);
+        weatherField.setWrapText(true);
+        weatherField.setStyle("-fx-control-inner-background: #2A2A2A; "
+                 + "-fx-text-inner-color: white;"
+                 + "-fx-text-box-border: transparent;");
+        
+        VBox weatherFieldBox = new VBox(weatherField);
+        
+        //Tile
+        var weatherTile = TileBuilder.create()
+                .skinType(SkinType.CUSTOM)
+                .prefSize(350, 150)
+                .title("")
+                .graphic(weatherFieldBox)
+                .build();
+        
+        //VBox for the img and weather tiles
+        VBox weatherVBox = new VBox(imgTile, weatherTile);
         
         /*Tile for choiceBox */
                 
@@ -92,6 +132,7 @@ public class Dashboard extends HBox {
         
         //ChoiceBox for the cities
         ChoiceBox cityCB = new ChoiceBox();
+        cityCB.setPrefWidth(200);
         
         //Leaving cityCB to be populated on update
         
@@ -135,30 +176,56 @@ public class Dashboard extends HBox {
             }
             else {
                 getCity();
-                //TO DO: Remove the dummy data under later
-                City[] cityArr = new City[] { };
-
-                if (cityArr.length > 1) {
+                //TO DO: get the list of city that has the same name as the input
+                List<City> citiesFromInput = rj.searchCities(cityField.getText());
+                int size = citiesFromInput.size();
+                selectedCity = citiesFromInput.get(0);
+                //if there's more than 1
+                if (size > 1) {
+                    //check if the user has not already made a choice
                     if (cityCB.getValue() == null) {
+                        //clear the choicebox to be sure to not get cities from another input
                         cityCB.getItems().clear();
-                        for (City city : cityArr) {
-                            //Change the data here
-                            //cityCB.getItems().add();
+                        for (City city : citiesFromInput) {
+                            //add the cities with the same name to the choicebox
+                            cityCB.getItems().add(city.toString());
                         }
-                        notify.ErrorDialog("There's " + cityArr.length + " with the same name choose the one you want.");
+                        //prompt the user to chose from the choicebox
+                        notify.ErrorDialog("There's " + size + " with the same name choose the one you want.");
+                        //set the choicebox to visible
                         cityCBFp.setVisible(true);
                     }
                     else {
-                        if (notify.confirmationDialog("Are you sure you want to see the weather for " + cityCB.getValue().toString() + "?")) {
+                        //else prompt the user to confirm their choice and proceed accordingly
+                        if (notify.confirmationDialog("Are you sure you want to see the weather for " + chosenCity + "?")) {
                         //TO DO: set selectedCity to the chosen city and get the weather
-                            for (City city : cityArr) {
-                                //if the city name and country == chosenCity setSelectedCity(city)
+                            for (City city : citiesFromInput) {
+                                //if the city == chosenCity selectedCity = city
+                                if (city.toString().equals(chosenCity)) {
+                                    selectedCity = city;
+                                }
                             }
                         }
                     }
                 }
                 else {
-                    cityCBFp.setVisible(false);
+                    cityCBFp.setVisible(false);       
+                }
+                if ((size > 1 && cityCB.getValue() != null) || size == 1) {
+                    Map<String, Double> coord = selectedCity.getCoord();
+                    String json;
+                    try {
+                        json = httpConnection.sendRequest(coord.get("lat"), coord.get("lon"));
+                        Weather weather = rj.readCurrentAPI(json);
+                        String weatherTxt = "Temp: " + weather.getTemp() + "\n" + " Humidity: " + weather.getHumidity() + "\n"
+                                + weather.getAlertEvent() + "\n" + weather.getAlertDesc();
+                        weatherField.setText(weatherTxt);
+                        Image image = new Image(weather.getIcon());
+                        imgTile.setImage(image);
+                        imgTile.setText(weather.getDescription());
+                    } catch (IOException ex) {
+                        Logger.getLogger(Dashboard.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                 }
             }
         });
@@ -170,17 +237,6 @@ public class Dashboard extends HBox {
                 .textSize(TextSize.BIGGER)
                 .title("Update forecast")
                 .graphic(update)
-                .build();
-        
-        //Tile using a dummy image for the moment
-        var imageTile = TileBuilder.create()
-                .skinType(SkinType.IMAGE)
-                .prefSize(350, 300)
-                .textSize(TextSize.BIGGER)
-                .image(new Image(this.getClass().getResourceAsStream("/images/sunny-clip-art.png")))
-                .imageMask(Tile.ImageMask.ROUND)
-                .text("It will be sunny today with cloudy periods")
-                .textAlignment(TextAlignment.CENTER)
                 .build();
         
         /*TextArea tile for temperature and humidity */
@@ -227,7 +283,7 @@ public class Dashboard extends HBox {
         row1.setMinWidth(350);
         row1.setSpacing(5);
         
-        HBox row2 = new HBox(imageTile, tempHumidityTile, updateTile);
+        HBox row2 = new HBox(weatherVBox, tempHumidityTile, updateTile);
         row2.setMinWidth(350);
         row2.setSpacing(5);
         
@@ -291,11 +347,13 @@ public class Dashboard extends HBox {
         threadObj.start(); //Start Thread
     }
     private void runThread(String line) {
-        Platform.runLater(new Runnable() {
-            @Override
-            public void run() {
-                tempHumidity.appendText(line + "\n");
-            }
-        });
+        while (running) {
+            Platform.runLater(new Runnable() {
+                @Override
+                public void run() {
+                    tempHumidity.appendText(line + "\n");
+                }
+            });
+        }
     }  
 }

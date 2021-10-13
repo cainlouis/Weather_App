@@ -24,31 +24,34 @@ import java.util.List;
 public class ReadJson {
     private static ObjectMapper mapper = new ObjectMapper();
     private static JsonNode jsonTree;
-    public ReadJson(String jsonString) throws JsonProcessingException {
-        this.jsonTree = mapper.readTree(jsonString);
+    private static List<City> cities;
+    public ReadJson() throws IOException {
+        this.cities = readCities();
     }
     
    
-    public List readCities() throws FileNotFoundException, IOException {
-        
-        
+    private List readCities() throws FileNotFoundException, IOException {
         String jsonPath = "src/main/Json/city.list.min.json";
         List <City> cities = Arrays.asList(mapper.readValue(Paths.get(jsonPath).toFile(), City[].class));
         return cities;
     }
     
-    public static Weather readCurrentAPI(){
+    public Weather readCurrentAPI(String jsonString) throws JsonProcessingException{
+        jsonTree = mapper.readTree(jsonString);
         Weather weather = new Weather();
-          
+        
         weather.setTemp(jsonTree.at("/current/temp").asText()); // Setting the temperature
         weather.setHumidity(jsonTree.at("/current/humidity").asText());
         weather.setDescription(jsonTree.at("/current/weather/0/description").asText());
         weather.setIcon(jsonTree.at("/current/weather/0/icon").asText());
+        weather.setAlertDesc(jsonTree.at("/alerts/description/").asText());
+        weather.setAlertEvent(jsonTree.at("/alerts/event/").asText());
         return weather;
         
     }
     
-    public static List<Weather> read7DaysAPI(){
+    public List<Weather> read7DaysAPI(String jsonString) throws JsonProcessingException{
+        jsonTree = mapper.readTree(jsonString);
         List<Weather> sevenDays = new ArrayList<Weather>();
         Weather newWeather;
         for(int i = 1; i<8; i++){
@@ -60,12 +63,28 @@ public class ReadJson {
             newWeather.setHumidity(jsonTree.at("/daily/"+i+"/humidity").asText());
             newWeather.setDescription(jsonTree.at("/daily/"+i+"/weather/0/description").asText());
             newWeather.setIcon(jsonTree.at("/daily/"+i+"/weather/0/icon").asText());
+            newWeather.setAlertDesc(jsonTree.at("/alerts/description/").asText());
+            newWeather.setAlertEvent(jsonTree.at("/alerts/event/").asText());
             sevenDays.add(newWeather);
         }
         
         
         return sevenDays;
     }
+
+    public List<City> getCities() {
+        return cities;
+    }
        
+    public List<City> searchCities(String city){
+        List<City> newCities = new ArrayList<>();
+        for(City c : cities){
+            if(c.getName().equalsIgnoreCase(city)){
+                newCities.add(c);
+            }
+        }
+        
+        return newCities;  
+    }
     
 }

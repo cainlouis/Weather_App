@@ -18,6 +18,9 @@ public class Weather {
     private String humidity;
     private String description;
     private String icon;
+    private String iconUrl = "http://openweathermap.org/img/wn/";
+    private String alertEvent;
+    private String alertDesc;
 
     public String getTemp() {
         return temp;
@@ -76,16 +79,34 @@ public class Weather {
     }
 
     public String getIcon() {
-        return icon;
+        return iconUrl + icon + "@2x.png";
     }
 
     public void setIcon(String icon) {
         this.icon = icon;
     }
 
+    public String getAlertEvent() {
+        return alertEvent;
+    }
+
+    public void setAlertEvent(String alertEvent) {
+        this.alertEvent = alertEvent;
+    }
+
+    public String getAlertDesc() {
+        return alertDesc;
+    }
+
+    public void setAlertDesc(String alertDesc) {
+        this.alertDesc = alertDesc;
+    }
+    
+    
+
     @Override
     public String toString() {
-        return "Weather{" + "temp=" + temp + ", tempday=" + tempday + ", tempNight=" + tempNight + ", tempEvening=" + tempEvening + ", tempMorning=" + tempMorning + ", humidity=" + humidity + ", description=" + description + ", icon=" + icon + '}';
+        return "Weather{" + "temp=" + temp + ", tempday=" + tempday + ", tempNight=" + tempNight + ", tempEvening=" + tempEvening + ", tempMorning=" + tempMorning + ", humidity=" + humidity + ", description=" + description + ", icon=" + getIcon() + '}';
     }
 
     
