@@ -64,7 +64,8 @@ public class SevenDayForecast extends VBox {
                 .skinType(Tile.SkinType.CUSTOM)
                 .prefSize(350, 300)
                 .textSize(Tile.TextSize.BIGGER)
-                .title(localDate.plusDays(i).format(DateTimeFormatter.ofPattern("EE, MMM d y")))
+                .title(localDate.plusDays(i).format(DateTimeFormatter.ofPattern("EE"
+                        + ", MMM d y")))
                 .graphic(weatherVBox)
                 .build();
             
