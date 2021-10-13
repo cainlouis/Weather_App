@@ -50,6 +50,9 @@ public class Dashboard extends HBox {
     private String chosenCity;
     private TextArea weatherField;
     private HTTPURLConnection httpConnection;
+    private List<City> citiesFromInput;
+    private ChoiceBox cityCB;
+    private FlowPane cityCBFp;
 
 
     
@@ -127,14 +130,16 @@ public class Dashboard extends HBox {
         cityLabel.setTextFill(Color.WHITE);
         
         //ChoiceBox for the cities
-        ChoiceBox cityCB = new ChoiceBox();
+        cityCB = new ChoiceBox();
         cityCB.setPrefWidth(200);
         
         //Leaving cityCB to be populated on update
         
         //set on action
         cityCB.setOnAction((event) -> {
-            chosenCity = cityCB.getValue().toString();
+            if (!cityCB.getItems().isEmpty()) {
+                chosenCity = cityCB.getValue().toString();
+            }
         });
         //Label for cityCB
         Label cityCBLabel = new Label("Choose the city you want: ");
@@ -150,7 +155,7 @@ public class Dashboard extends HBox {
         
         //Hbox for the cityCB 
         HBox cityCBBox = new HBox(cityCB);
-        FlowPane cityCBFp = new FlowPane(cityCBLabel, cityCB);
+        cityCBFp = new FlowPane(cityCBLabel, cityCB);
         cityCBFp.setVisible(false);
         
         VBox vb = new VBox(cbFp, txtFp, cityCBFp);
@@ -171,11 +176,13 @@ public class Dashboard extends HBox {
                 notify.errorDialog("City field is empty, enter a city name.");
             }
             else {
+                //Sanitize the user input
                 getCity();
-                //TO DO: get the list of city that has the same name as the input
+                //Clear choiceBox for cities so it disappear when there's only one city or when the user input changes
+                clearChoiceBox();
                 
-                //TO-DO: Fix Bug - choicebox for multiple cities dont show up again after second time inputting multiple cities
-                List<City> citiesFromInput = rj.searchCities(cityField.getText());
+                //get
+                citiesFromInput = rj.searchCities(city);
                 int size = citiesFromInput.size();
                 try {
                     selectedCity = citiesFromInput.get(0);
@@ -183,51 +190,26 @@ public class Dashboard extends HBox {
                 catch (IndexOutOfBoundsException e) {
                     notify.errorDialog("City doesn't exist! Please try again.");
                 }
-                //if there's more than 1
+                //if there's only 1 city clear choicebox and set to invisible
                 if (size == 1) {
                   cityCBFp.setVisible(false);
                   cityCB.getItems().clear();
                 }
                 else {
                     //check if the user has not already made a choice
-                    if (cityCB.getValue() == null) {
-                        //clear the choicebox to be sure to not get cities from another input
-                        //cityCB.getItems().clear();
-                        for (City city : citiesFromInput) {
-                            //add the cities with the same name to the choicebox
-                            cityCB.getItems().add(city.toString());
-                        }
-                        //prompt the user to chose from the choicebox
-                        notify.errorDialog("There's " + size + " with the same name!\nChoose the city you want.");
-                        //set the choicebox to visible
-                        cityCBFp.setVisible(true);
-                    }
-                    else {
-                        //else prompt the user to confirm their choice and proceed 
-                        for (City city : citiesFromInput) {
-                            //if the city == chosenCity selectedCity = city
-                            if (city.toString().equals(chosenCity)) {
-                                selectedCity = city;
-                            }
-                        }
-                        //TO-DO: Fix Bug - ConfirmationDialog shows up even with 7 Day Forecast. Fix for later
-                        /*if (notify.confirmationDialog("Are you sure you want to see the weather for " + chosenCity + "?")) {
-                        //TO DO: set selectedCity to the chosen city and get the weather
-                            for (City city : citiesFromInput) {
-                                //if the city == chosenCity selectedCity = city
-                                if (city.toString().equals(chosenCity)) {
-                                    selectedCity = city;
-                                }
-                            }
-                        }*/
-                    }
+                    setSelectedCity(size);
                 }
+                
+                //if there is more than 2 cities and the user chose one of the choices or there is only 1 city
                 if ((size > 1 && cityCB.getValue() != null) || size == 1) {
+                    //get coordinates
                     Map<String, Double> coord = selectedCity.getCoord();
                     String json;
                     try {
+                        //create the query as a string (json) and fetch weather
                         json = httpConnection.sendRequest(coord.get("lat"), coord.get("lon"));
                         Weather weather = rj.readCurrentAPI(json);
+                        
                         String weatherTxt = "Temperature: " + weather.getTemp() + "°C\n" + "Humidity: " + weather.getHumidity() + "%\n"
                                 + weather.getAlertEvent() + "\n" + weather.getAlertDesc();
                         weatherField.setText(weatherTxt);
@@ -238,7 +220,7 @@ public class Dashboard extends HBox {
                             List<Weather> sevenDays= rj.read7DaysAPI(json);
                             App.theStage.setScene(new Scene(new SevenDayForecast(sevenDays)));
                         }
-                        cityCB.getItems().clear();
+                        //cityCB.getItems().clear();
                     } catch (IOException ex) {
                         Logger.getLogger(Dashboard.class.getName()).log(Level.SEVERE, null, ex);
                     }
@@ -321,16 +303,17 @@ public class Dashboard extends HBox {
     public void getCity() {
         String toSanitize = cityField.getText();
         toSanitize = toSanitize.toLowerCase();
-        
-        toSanitize = Normalizer.normalize(toSanitize, Form.NFKC);
+     
+        toSanitize = Normalizer.normalize(toSanitize, Form.NFKC);   
         Pattern patternObj = Pattern.compile("[<>]");
         Matcher matcherObj = patternObj.matcher(toSanitize);
         if (matcherObj.find()) {
             notify.errorDialog("Invalid character(s) has been found, only use letters for the city name");
             cityField.setText("");
         }
-        else if (Pattern.matches("[a-zA-Z0-9]", toSanitize)) {
+        else if (Pattern.matches("^[a-zA-Z]+$", toSanitize)) {
             city = toSanitize;
+            System.out.println(city);
         }
     }
     private void initiateProcess() throws IOException {
@@ -364,5 +347,46 @@ public class Dashboard extends HBox {
                 tempHumidity.appendText(line + "\n");
             }
         });
-    }  
+    }
+    
+    private void setSelectedCity(int size) {
+        //check if the user has not already made a choice
+        if (cityCB.getValue() == null) {
+            for (City city : citiesFromInput) {
+                //add the cities with the same name to the choicebox
+                cityCB.getItems().add(city.toString());
+            }
+            //prompt the user to chose from the choicebox
+            notify.errorDialog("There's " + size + " with the same name!\nChoose the city you want.");
+            //set the choicebox to visible
+            cityCBFp.setVisible(true);
+        } else {
+            //else prompt the user to confirm their choice and proceed 
+            for (City city : citiesFromInput) {
+                //if the city == chosenCity selectedCity = city
+                if (city.toString().equals(chosenCity)) {
+                    selectedCity = city;
+                }
+            }
+            //TO-DO: Fix Bug - ConfirmationDialog shows up even with 7 Day Forecast. Fix for later
+            /*if (notify.confirmationDialog("Are you sure you want to see the weather for " + chosenCity + "?")) {
+                        //TO DO: set selectedCity to the chosen city and get the weather
+                            for (City city : citiesFromInput) {
+                                //if the city == chosenCity selectedCity = city
+                                if (city.toString().equals(chosenCity)) {
+                                    selectedCity = city;
+                                }
+                            }
+                        }*/
+        }
+    }
+    
+    private void clearChoiceBox() {
+        if (selectedCity != null && (!selectedCity.getName().equalsIgnoreCase(city))) {
+            cityCBFp.setVisible(false);
+            if (!(cityCB.getItems().isEmpty())) {
+                cityCB.getItems().clear();
+            }
+        }
+    }
 }
