@@ -56,10 +56,8 @@ public class ReadJson {
         Weather newWeather;
         for(int i = 1; i<8; i++){
             newWeather = new Weather();
-            newWeather.setTempday(jsonTree.at("/daily/"+i+"/temp/day").asText());
-            newWeather.setTempNight(jsonTree.at("/daily/"+i+"/temp/night").asText());
-            newWeather.setTempEvening(jsonTree.at("/daily/"+i+"/temp/eve").asText());
-            newWeather.setTempMorning(jsonTree.at("/daily/"+i+"/temp/morn").asText());
+            newWeather.setMaxTemp(jsonTree.at("/daily/"+i+"/temp/max").asText());
+            newWeather.setMinTemp(jsonTree.at("/daily/"+i+"/temp/min").asText());
             newWeather.setHumidity(jsonTree.at("/daily/"+i+"/humidity").asText());
             newWeather.setDescription(jsonTree.at("/daily/"+i+"/weather/0/description").asText());
             newWeather.setIcon(jsonTree.at("/daily/"+i+"/weather/0/icon").asText());
