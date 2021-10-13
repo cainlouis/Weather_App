@@ -43,7 +43,8 @@ public class SevenDayForecast extends VBox {
                 .textAlignment(TextAlignment.CENTER)
                 .build();
             
-            String weatherInfo = "Temperature: " + weatherList.get(i).getTemp() + "°C" + "\n"
+            String weatherInfo = "Max temperature: " + weatherList.get(i).getMaxTemp() + "°C" + "\n"
+                               + "Min temperature: " + weatherList.get(i).getMinTemp() + "°C" + "\n"
                                + "Humidity: " + weatherList.get(i).getHumidity() + "%";
             TextArea weatherField = new TextArea(weatherInfo);
             weatherField.setEditable(false);
