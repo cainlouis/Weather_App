@@ -76,7 +76,7 @@ public class Dashboard extends HBox {
         //Tile using a dummy image for the moment
         var imgTile = TileBuilder.create()
                 .skinType(SkinType.IMAGE)
-                .prefSize(350, 150)
+                .prefSize(350, 250)
                 .textSize(TextSize.BIGGER)
                 .image(new Image(this.getClass().getResourceAsStream("/images/sunny-clip-art.png")))
                 .imageMask(Tile.ImageMask.ROUND)
@@ -92,18 +92,15 @@ public class Dashboard extends HBox {
                  + "-fx-text-inner-color: white;"
                  + "-fx-text-box-border: transparent;");
         
-        VBox weatherFieldBox = new VBox(weatherField);
+        VBox weatherFieldBox = new VBox(imgTile, weatherField);
         
         //Tile
         var weatherTile = TileBuilder.create()
                 .skinType(SkinType.CUSTOM)
-                .prefSize(350, 150)
-                .title("")
+                .prefSize(350, 300)
+                .title("Current weather")
                 .graphic(weatherFieldBox)
                 .build();
-        
-        //VBox for the img and weather tiles
-        VBox weatherVBox = new VBox(imgTile, weatherTile);
         
         /*Tile for choiceBox */
                 
@@ -283,7 +280,7 @@ public class Dashboard extends HBox {
         row1.setMinWidth(350);
         row1.setSpacing(5);
         
-        HBox row2 = new HBox(weatherVBox, tempHumidityTile, updateTile);
+        HBox row2 = new HBox(weatherTile, tempHumidityTile, updateTile);
         row2.setMinWidth(350);
         row2.setSpacing(5);
         
