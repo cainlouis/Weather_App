@@ -184,11 +184,15 @@ public class Dashboard extends HBox {
                     notify.errorDialog("City doesn't exist! Please try again.");
                 }
                 //if there's more than 1
-                if (size > 1) {
+                if (size == 1) {
+                  cityCBFp.setVisible(false);
+                  cityCB.getItems().clear();
+                }
+                else {
                     //check if the user has not already made a choice
                     if (cityCB.getValue() == null) {
                         //clear the choicebox to be sure to not get cities from another input
-                        cityCB.getItems().clear();
+                        //cityCB.getItems().clear();
                         for (City city : citiesFromInput) {
                             //add the cities with the same name to the choicebox
                             cityCB.getItems().add(city.toString());
@@ -218,9 +222,6 @@ public class Dashboard extends HBox {
                         }*/
                     }
                 }
-                else {
-                    cityCBFp.setVisible(false);       
-                }
                 if ((size > 1 && cityCB.getValue() != null) || size == 1) {
                     Map<String, Double> coord = selectedCity.getCoord();
                     String json;
@@ -237,6 +238,7 @@ public class Dashboard extends HBox {
                             List<Weather> sevenDays= rj.read7DaysAPI(json);
                             App.theStage.setScene(new Scene(new SevenDayForecast(sevenDays)));
                         }
+                        cityCB.getItems().clear();
                     } catch (IOException ex) {
                         Logger.getLogger(Dashboard.class.getName()).log(Level.SEVERE, null, ex);
                     }
