@@ -7,6 +7,7 @@ package com.mycompany.weatherapp.lam.louis.rivas;
 
 import eu.hansolo.tilesfx.Tile;
 import eu.hansolo.tilesfx.TileBuilder;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import javafx.scene.control.Button;
@@ -25,7 +26,7 @@ import javafx.scene.text.TextAlignment;
  */
 public class SevenDayForecast extends VBox {
     private List<Weather> weatherList;
-    public SevenDayForecast(List<Weather> weatherList) {
+    public SevenDayForecast(List<Weather> weatherList) throws IOException {
         this.weatherList = weatherList;
         this.buildScreen();
     }
@@ -34,7 +35,7 @@ public class SevenDayForecast extends VBox {
         for (int i = 0; i < weatherList.size(); i++) {          
             var imageTile = TileBuilder.create()
                 .skinType(Tile.SkinType.IMAGE)
-                .prefSize(150, 100)
+                .prefSize(350, 300)
                 .textSize(Tile.TextSize.BIGGER)
                 .image(new Image(weatherList.get(i).getIcon()))
                 .imageMask(Tile.ImageMask.ROUND)
@@ -42,22 +43,16 @@ public class SevenDayForecast extends VBox {
                 .textAlignment(TextAlignment.CENTER)
                 .build();
             
-            TextArea weatherField = new TextArea();
+            String weatherInfo = "Temperature: " + weatherList.get(i).getTemp() + "°C" + "\n"
+                               + "Humidity: " + weatherList.get(i).getHumidity() + "%";
+            TextArea weatherField = new TextArea(weatherInfo);
             weatherField.setEditable(false);
             weatherField.setWrapText(true);
             weatherField.setStyle("-fx-control-inner-background: #2A2A2A; "
                      + "-fx-text-inner-color: white;"
-                     + "-fx-text-box-border: transparent;");
+                     + "-fx-text-box-border: white;");
             
-            Label tempLabel = new Label("Temperature: ");
-            Text tempText = new Text(weatherList.get(i).getTemp());
-            HBox temperatureHBox = new HBox(tempLabel, tempText);
-            
-            Label humidityLabel = new Label("Label: ");
-            Text humidityText = new Text(weatherList.get(i).getHumidity());
-            HBox humidityHBox = new HBox(humidityLabel, humidityText);
-            
-            VBox weatherVBox = new VBox(imageTile, temperatureHBox, humidityHBox);
+            VBox weatherVBox = new VBox(imageTile, weatherField);
             
             var weatherTile = TileBuilder.create()
                 .skinType(Tile.SkinType.CUSTOM)
@@ -71,22 +66,25 @@ public class SevenDayForecast extends VBox {
         }
         
         TextArea alertTextArea = new TextArea();
-        alertTextArea.setStyle("-fx-control-inner-background: #2A2A2A; "
-                     + "-fx-text-inner-color: white;"
-                     + "-fx-text-box-border: transparent;");
+        String color = "white";
         
-        String alert = weatherList.get(0).getAlertEvent() + "\n" + weatherList.get(0).getAlertDesc();
-        if (weatherList.get(0).getAlertEvent() != null && weatherList.get(0).getAlertDesc() != null) {
+        String alert = "There are no alerts at the moment!";
+        if (weatherList.get(0).getAlertEvent() == null && weatherList.get(0).getAlertDesc() == null) {
             alert = weatherList.get(0).getAlertEvent() + "\n" + weatherList.get(0).getAlertDesc();
-            alertTextArea.setStyle("-fx-text-inner-color: #c74e30");
+            color = "#c74e30";
         }
         alertTextArea.setText(alert);
+        alertTextArea.setWrapText(true);
+        alertTextArea.setEditable(false);
+        alertTextArea.setStyle("-fx-control-inner-background: #2A2A2A; "
+                     + "-fx-text-inner-color: " + color + ";"
+                     + "-fx-text-box-border: white;");
         
         VBox alertVBox = new VBox(alertTextArea);
         
         var alertTile = TileBuilder.create()
                 .skinType(Tile.SkinType.CUSTOM)
-                .prefSize(150, 100)
+                .prefSize(350, 300)
                 .textSize(Tile.TextSize.BIGGER)
                 .title("Alerts")
                 .graphic(alertVBox)
@@ -99,8 +97,9 @@ public class SevenDayForecast extends VBox {
         
         var exitTile = TileBuilder.create()
                 .skinType(Tile.SkinType.CUSTOM)
-                .prefSize(150, 100)
+                .prefSize(350, 300)
                 .textSize(Tile.TextSize.BIGGER)
+                .title("Return")
                 .graphic(exit)
                 .build();
         
@@ -110,11 +109,14 @@ public class SevenDayForecast extends VBox {
             if (i % 3 == 0) {
                 rows.add(row);
                 row = new HBox();
+                row.setSpacing(5);
             }
             row.getChildren().add(tileArr.get(i));
         }
         row.getChildren().addAll(alertTile, exitTile);
+        rows.add(row);
         
-        this.getChildren().addAll(rows); 
+        this.getChildren().addAll(rows);
+        this.setSpacing(5);
     }
 }
