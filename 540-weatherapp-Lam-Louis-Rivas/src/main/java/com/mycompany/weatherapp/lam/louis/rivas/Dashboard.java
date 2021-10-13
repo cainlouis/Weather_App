@@ -61,7 +61,6 @@ public class Dashboard extends HBox {
     }
     
     public void buildScreen() {
-        /*Tile for the clock*/
             
         //Tile for clock 
         var clockTile = TileBuilder.create()
@@ -73,19 +72,19 @@ public class Dashboard extends HBox {
                 .running(true)
                 .build();
         
-        //Tile using a dummy image for the moment
+        //Tile for Image of Weather
         var imgTile = TileBuilder.create()
                 .skinType(SkinType.IMAGE)
                 .prefSize(350, 250)
                 .textSize(TextSize.BIGGER)
-                .image(new Image(this.getClass().getResourceAsStream("/images/sunny-clip-art.png")))
+                .image(new Image(this.getClass().getResourceAsStream("/images/blank.png")))
                 .imageMask(Tile.ImageMask.ROUND)
-                .text("It will be sunny today with cloudy periods")
+                .text("")
                 .textAlignment(TextAlignment.CENTER)
                 .build();
         
         /*TextArea tile for the weather*/
-        weatherField = new TextArea();
+        weatherField = new TextArea("You haven't chosen a city yet! Please input a city name.");
         weatherField.setEditable(false);
         weatherField.setWrapText(true);
         weatherField.setStyle("-fx-control-inner-background: #2A2A2A; "
@@ -94,7 +93,7 @@ public class Dashboard extends HBox {
         
         VBox weatherFieldBox = new VBox(imgTile, weatherField);
         
-        //Tile
+        //Tile for Weather
         var weatherTile = TileBuilder.create()
                 .skinType(SkinType.CUSTOM)
                 .prefSize(350, 300)
@@ -109,7 +108,7 @@ public class Dashboard extends HBox {
         
         //Set the values of the choiceBox
         choiceBox.getItems().add(choiceValue);
-        choiceBox.getItems().add("7 days forcast");
+        choiceBox.getItems().add("7 Days Forecast");
         //set the default value
         choiceBox.setValue(choiceValue);
         //set on action
@@ -169,14 +168,21 @@ public class Dashboard extends HBox {
         Button update = new Button("Update");
         update.setOnAction((event) -> {
             if (cityField.getText().equals("")) {
-                notify.ErrorDialog("City field is empty, enter a city name.");
+                notify.errorDialog("City field is empty, enter a city name.");
             }
             else {
                 getCity();
                 //TO DO: get the list of city that has the same name as the input
+                
+                //TO-DO: Fix Bug - choicebox for multiple cities dont show up again after second time inputting multiple cities
                 List<City> citiesFromInput = rj.searchCities(cityField.getText());
                 int size = citiesFromInput.size();
-                selectedCity = citiesFromInput.get(0);
+                try {
+                    selectedCity = citiesFromInput.get(0);
+                }
+                catch (IndexOutOfBoundsException e) {
+                    notify.errorDialog("City doesn't exist! Please try again.");
+                }
                 //if there's more than 1
                 if (size > 1) {
                     //check if the user has not already made a choice
@@ -188,13 +194,20 @@ public class Dashboard extends HBox {
                             cityCB.getItems().add(city.toString());
                         }
                         //prompt the user to chose from the choicebox
-                        notify.ErrorDialog("There's " + size + " with the same name choose the one you want.");
+                        notify.errorDialog("There's " + size + " with the same name!\nChoose the city you want.");
                         //set the choicebox to visible
                         cityCBFp.setVisible(true);
                     }
                     else {
-                        //else prompt the user to confirm their choice and proceed accordingly
-                        if (notify.confirmationDialog("Are you sure you want to see the weather for " + chosenCity + "?")) {
+                        //else prompt the user to confirm their choice and proceed 
+                        for (City city : citiesFromInput) {
+                            //if the city == chosenCity selectedCity = city
+                            if (city.toString().equals(chosenCity)) {
+                                selectedCity = city;
+                            }
+                        }
+                        //TO-DO: Fix Bug - ConfirmationDialog shows up even with 7 Day Forecast. Fix for later
+                        /*if (notify.confirmationDialog("Are you sure you want to see the weather for " + chosenCity + "?")) {
                         //TO DO: set selectedCity to the chosen city and get the weather
                             for (City city : citiesFromInput) {
                                 //if the city == chosenCity selectedCity = city
@@ -202,7 +215,7 @@ public class Dashboard extends HBox {
                                     selectedCity = city;
                                 }
                             }
-                        }
+                        }*/
                     }
                 }
                 else {
@@ -214,13 +227,13 @@ public class Dashboard extends HBox {
                     try {
                         json = httpConnection.sendRequest(coord.get("lat"), coord.get("lon"));
                         Weather weather = rj.readCurrentAPI(json);
-                        String weatherTxt = "Temperature: " + weather.getTemp() + "\n" + " Humidity: " + weather.getHumidity() + "\n"
+                        String weatherTxt = "Temperature: " + weather.getTemp() + "°C\n" + "Humidity: " + weather.getHumidity() + "%\n"
                                 + weather.getAlertEvent() + "\n" + weather.getAlertDesc();
                         weatherField.setText(weatherTxt);
                         Image image = new Image(weather.getIcon());
                         imgTile.setImage(image);
                         imgTile.setText(weather.getDescription());
-                        if (choiceValue.equals("7 days forcast")) {
+                        if (choiceValue.equals("7 Days Forecast")) {
                             List<Weather> sevenDays= rj.read7DaysAPI(json);
                             App.theStage.setScene(new Scene(new SevenDayForecast(sevenDays)));
                         }
@@ -305,18 +318,13 @@ public class Dashboard extends HBox {
     */
     public void getCity() {
         String toSanitize = cityField.getText();
-        if (toSanitize == "") {
-            
-        }
         toSanitize = toSanitize.toLowerCase();
         
         toSanitize = Normalizer.normalize(toSanitize, Form.NFKC);
         Pattern patternObj = Pattern.compile("[<>]");
         Matcher matcherObj = patternObj.matcher(toSanitize);
         if (matcherObj.find()) {
-            //TO DO: Alert
-            notify.ErrorDialog("Invalid character(s) has been found, only use letters for the city name");
-            System.out.println("Invalid input");
+            notify.errorDialog("Invalid character(s) has been found, only use letters for the city name");
             cityField.setText("");
         }
         else if (Pattern.matches("[a-zA-Z0-9]", toSanitize)) {
@@ -341,7 +349,7 @@ public class Dashboard extends HBox {
                 System.err.println("Thread got interrupted!");
             }
             catch (IOException e) {
-                System.err.println("IOexception!");
+                System.err.println("IOException got caught!");
             }
         });
         threadObj.setDaemon(true); //Set as Daemon so on exit, it kills the thread

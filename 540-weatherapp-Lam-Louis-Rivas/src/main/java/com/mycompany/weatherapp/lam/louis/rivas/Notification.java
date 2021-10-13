@@ -16,7 +16,7 @@ public class Notification {
     public boolean confirmationDialog(String message) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Confirmation Dialog");
-        alert.setHeaderText("Look, a Confirmation Dialog");
+        alert.setHeaderText("Confirmation needed.");
         alert.setContentText(message);
 
         Optional<ButtonType> result = alert.showAndWait();
@@ -28,10 +28,10 @@ public class Notification {
      * @param message contains the cause of the error an the action the user 
      * should follow 
      */
-    public void ErrorDialog(String message) {
+    public void errorDialog(String message) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Error Dialog");
-        alert.setHeaderText("Look, an Error Dialog");
+        alert.setHeaderText("An Error has Occured!");
         alert.setContentText(message);
 
         alert.showAndWait();

@@ -24,6 +24,7 @@ public class App extends Application {
         
         //Set the active scene
         theStage.setScene(scene);
+        theStage.setTitle("Weather App Dashboard");
         theStage.show();
         
         // Make sure the application quits completely on close
