@@ -11,10 +11,8 @@ package com.mycompany.weatherapp.lam.louis.rivas;
  */
 public class Weather {
     private String temp;
-    private String tempday;
-    private String tempNight;
-    private String tempEvening;
-    private String tempMorning;
+    private String maxTemp;
+    private String minTemp;
     private String humidity;
     private String description;
     private String icon;
@@ -30,36 +28,20 @@ public class Weather {
         this.temp = temp;
     }
 
-    public String getTempday() {
-        return tempday;
+    public String getMaxTemp() {
+        return maxTemp;
     }
 
-    public void setTempday(String tempday) {
-        this.tempday = tempday;
+    public void setMaxTemp(String maxTemp) {
+        this.maxTemp = maxTemp;
     }
 
-    public String getTempNight() {
-        return tempNight;
+    public String getMinTemp() {
+        return minTemp;
     }
 
-    public void setTempNight(String tempNight) {
-        this.tempNight = tempNight;
-    }
-
-    public String getTempEvening() {
-        return tempEvening;
-    }
-
-    public void setTempEvening(String tempEvening) {
-        this.tempEvening = tempEvening;
-    }
-
-    public String getTempMorning() {
-        return tempMorning;
-    }
-
-    public void setTempMorning(String tempMorning) {
-        this.tempMorning = tempMorning;
+    public void setMinTemp(String minTemp) {
+        this.minTemp = minTemp;
     }
 
     public String getHumidity() {
@@ -106,7 +88,7 @@ public class Weather {
 
     @Override
     public String toString() {
-        return "Weather{" + "temp=" + temp + ", tempday=" + tempday + ", tempNight=" + tempNight + ", tempEvening=" + tempEvening + ", tempMorning=" + tempMorning + ", humidity=" + humidity + ", description=" + description + ", icon=" + getIcon() + '}';
+        return "Weather{" + "temp=" + temp + ", maxTemp=" + maxTemp + ", minTemp=" + minTemp + ", humidity=" + humidity + ", description=" + description + ", icon=" + getIcon() + '}';
     }
 
     
