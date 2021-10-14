@@ -173,7 +173,7 @@ public class Dashboard extends HBox {
         Button update = new Button("Update");
         update.setOnAction((event) -> {
             if (cityField.getText().equals("")) {
-                notify.errorDialog("City field is empty, enter a city name.");
+                notify.warningDialog("City field is empty, enter a city name.");
             }
             else {
                 //Sanitize the user input
@@ -189,7 +189,7 @@ public class Dashboard extends HBox {
                     selectedCity = citiesFromInput.get(0);
                 }
                 catch (IndexOutOfBoundsException e) {
-                    notify.errorDialog("City doesn't exist! Please try again.");
+                    notify.warningDialog("City doesn't exist! Please try again.");
                 }
                 
                 //decide what action to take according to the size
@@ -311,7 +311,7 @@ public class Dashboard extends HBox {
         Pattern patternObj = Pattern.compile("[<>]");
         Matcher matcherObj = patternObj.matcher(toSanitize);
         if (matcherObj.find()) {
-            notify.errorDialog("Invalid character(s) has been found, only use letters for the city name");
+            notify.warningDialog("Invalid character(s) has been found, only use letters for the city name");
             cityField.setText("");
         }
         else if (Pattern.matches("^[a-zA-Z]+$", toSanitize)) {
@@ -371,7 +371,7 @@ public class Dashboard extends HBox {
             }
             if (!cityCB.getItems().isEmpty()){
                 //prompt the user to chose from the choicebox
-                notify.errorDialog("There's " + size + " with the same name!\nChoose the city you want.");
+                notify.informationDialog("There's " + size + " with the same name!\nChoose the city you want.");
                 //set the choicebox to visible
                 cityCBFp.setVisible(true);
             }
