@@ -184,7 +184,6 @@ public class Dashboard extends HBox {
                 //get the cities that have the same name
                 citiesFromInput = rj.searchCities(city);
                 int size = citiesFromInput.size();
-                
                 //Verify that there's is a city with that name if not notify
                 try {
                     selectedCity = citiesFromInput.get(0);
@@ -370,10 +369,12 @@ public class Dashboard extends HBox {
                 //add the cities with the same name to the choicebox
                 cityCB.getItems().add(city.toString());
             }
-            //prompt the user to chose from the choicebox
-            notify.errorDialog("There's " + size + " with the same name!\nChoose the city you want.");
-            //set the choicebox to visible
-            cityCBFp.setVisible(true);
+            if (!cityCB.getItems().isEmpty()){
+                //prompt the user to chose from the choicebox
+                notify.errorDialog("There's " + size + " with the same name!\nChoose the city you want.");
+                //set the choicebox to visible
+                cityCBFp.setVisible(true);
+            }
         } else {
             //else prompt the user to confirm their choice and proceed 
             for (City city : citiesFromInput) {
