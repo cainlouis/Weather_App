@@ -4,11 +4,13 @@ import java.util.Map;
 import java.util.Objects;
 
 /**
- *
+ * This class creates an object of type City
+ * containing all the needed properties to create
+ * the object from the Json using Jackson.
  * @author Rodrigo Rivas
  */
 public class City {
-    private double id; //double as in the json there are some id that have a decimal.
+    private double id;
     private String name;
     private String state;
     private String country;
