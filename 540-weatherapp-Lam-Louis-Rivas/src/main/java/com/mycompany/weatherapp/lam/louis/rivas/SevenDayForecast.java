@@ -8,6 +8,10 @@ package com.mycompany.weatherapp.lam.louis.rivas;
 import eu.hansolo.tilesfx.Tile;
 import eu.hansolo.tilesfx.TileBuilder;
 import java.io.IOException;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import javafx.scene.control.Button;
@@ -31,6 +35,9 @@ public class SevenDayForecast extends VBox {
         this.buildScreen();
     }
     private void buildScreen() {
+        LocalDate localDate;
+        //String date = localDate.format(DateTimeFormatter.ofPattern("E, MMM d y"));
+        
         ArrayList<Tile> tileArr = new ArrayList<>();
         for (int i = 0; i < weatherList.size(); i++) {          
             var imageTile = TileBuilder.create()
@@ -55,11 +62,15 @@ public class SevenDayForecast extends VBox {
             
             VBox weatherVBox = new VBox(imageTile, weatherField);
             
+            long unixTime = Long.parseLong(weatherList.get(i).getDt());
+            localDate = LocalDate.ofInstant(Instant.ofEpochSecond(unixTime), ZoneId.systemDefault());
+            
             var weatherTile = TileBuilder.create()
                 .skinType(Tile.SkinType.CUSTOM)
                 .prefSize(350, 300)
                 .textSize(Tile.TextSize.BIGGER)
-                .title("Day " + (i + 1))
+                .title(localDate.format(DateTimeFormatter.ofPattern("EE"
+                        + ", MMM d y")))
                 .graphic(weatherVBox)
                 .build();
             
