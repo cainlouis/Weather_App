@@ -25,8 +25,10 @@ public class ReadJson {
     private static ObjectMapper mapper = new ObjectMapper();
     private static JsonNode jsonTree;
     private static List<City> cities;
+    private static InputValidation inputVal;
     public ReadJson() throws IOException {
         this.cities = readCities();
+        this.inputVal = new InputValidation();
     }
     
    /**
@@ -52,20 +54,20 @@ public class ReadJson {
         Weather weather = new Weather();
         
         weather.setTimezone(jsonTree.at("/timezone").asText());
-        weather.setTemp(jsonTree.at("/current/temp").asText()); // Setting the temperature
-        weather.setFeelsLike(jsonTree.at("/current/feels_like").asText());
-        weather.setHumidity(jsonTree.at("/current/humidity").asText());
-        weather.setDescription(jsonTree.at("/current/weather/0/description").asText());
-        weather.setSunrise(jsonTree.at("/current/sunrise").asText());
-        weather.setSunset(jsonTree.at("/current/sunset").asText());
-        weather.setPressure(jsonTree.at("/current/pressure").asText());
-        weather.setUv(jsonTree.at("/current/uvi").asText());
-        weather.setVisibility(jsonTree.at("/current/visibility").asText());
-        weather.setWindSpeed(jsonTree.at("/current/wind_speed").asText());
-        weather.setWindGust(jsonTree.at("/current/wind_gust").asText());
+        weather.setTemp(inputVal.validateString(jsonTree.at("/current/temp").asText())); // Setting the temperature
+        weather.setFeelsLike(inputVal.validateString(jsonTree.at("/current/feels_like").asText()));
+        weather.setHumidity(inputVal.validateString(jsonTree.at("/current/humidity").asText()));
+        weather.setDescription(inputVal.validateString(jsonTree.at("/current/weather/0/description").asText()));
+        weather.setSunrise(inputVal.validateString(jsonTree.at("/current/sunrise").asText()));
+        weather.setSunset(inputVal.validateString(jsonTree.at("/current/sunset").asText()));
+        weather.setPressure(inputVal.validateString(jsonTree.at("/current/pressure").asText()));
+        weather.setUv(inputVal.validateString(jsonTree.at("/current/uvi").asText()));
+        weather.setVisibility(inputVal.validateString(jsonTree.at("/current/visibility").asText()));
+        weather.setWindSpeed(inputVal.validateString(jsonTree.at("/current/wind_speed").asText()));
+        weather.setWindGust(inputVal.validateString(jsonTree.at("/current/wind_gust").asText()));
         weather.setIcon(jsonTree.at("/current/weather/0/icon").asText());
-        weather.setAlertDesc(jsonTree.at("/alerts/description/").asText());
-        weather.setAlertEvent(jsonTree.at("/alerts/event/").asText());
+        weather.setAlertDesc(inputVal.validateString(jsonTree.at("/alerts/description/").asText()));
+        weather.setAlertEvent(inputVal.validateString(jsonTree.at("/alerts/event/").asText()));
         return weather;
         
     }
@@ -84,20 +86,19 @@ public class ReadJson {
         for(int i = 0; i<7; i++){
             newWeather = new Weather();
             newWeather.setTimezone(jsonTree.at("/timezone").asText());
-            newWeather.setMaxTemp(jsonTree.at("/daily/"+i+"/temp/max").asText());
-            newWeather.setMinTemp(jsonTree.at("/daily/"+i+"/temp/min").asText());
-            newWeather.setHumidity(jsonTree.at("/daily/"+i+"/humidity").asText());
-            newWeather.setSunrise(jsonTree.at("/daily/"+i+"/sunrise").asText());
-            newWeather.setSunset(jsonTree.at("/daily/"+i+"/sunset").asText());
-            newWeather.setPressure(jsonTree.at("/daily/"+i+"/pressure").asText());
-            newWeather.setUv(jsonTree.at("/daily/"+i+"/uvi").asText());
-            //newWeather.setVisibility(jsonTree.at("/daily/"+i+"/uvi").asText());
-            newWeather.setWindSpeed(jsonTree.at("/daily/"+i+"/wind_speed").asText());
-            newWeather.setWindGust(jsonTree.at("/daily/"+i+"/wind_gust").asText());
-            newWeather.setDescription(jsonTree.at("/daily/"+i+"/weather/0/description").asText());
-            newWeather.setIcon(jsonTree.at("/daily/"+i+"/weather/0/icon").asText());
-            newWeather.setAlertDesc(jsonTree.at("/alerts/description/").asText());
-            newWeather.setAlertEvent(jsonTree.at("/alerts/event/").asText());
+            newWeather.setMaxTemp(inputVal.validateString(jsonTree.at("/daily/"+i+"/temp/max").asText()));
+            newWeather.setMinTemp(inputVal.validateString(jsonTree.at("/daily/"+i+"/temp/min").asText()));
+            newWeather.setHumidity(inputVal.validateString(jsonTree.at("/daily/"+i+"/humidity").asText()));
+            newWeather.setSunrise(inputVal.validateString(jsonTree.at("/daily/"+i+"/sunrise").asText()));
+            newWeather.setSunset(inputVal.validateString(jsonTree.at("/daily/"+i+"/sunset").asText()));
+            newWeather.setPressure(inputVal.validateString(jsonTree.at("/daily/"+i+"/pressure").asText()));
+            newWeather.setUv(inputVal.validateString(jsonTree.at("/daily/"+i+"/uvi").asText()));
+            newWeather.setWindSpeed(inputVal.validateString(jsonTree.at("/daily/"+i+"/wind_speed").asText()));
+            newWeather.setWindGust(inputVal.validateString(jsonTree.at("/daily/"+i+"/wind_gust").asText()));
+            newWeather.setDescription(inputVal.validateString(jsonTree.at("/daily/"+i+"/weather/0/description").asText()));
+            newWeather.setIcon(inputVal.validateString(jsonTree.at("/daily/"+i+"/weather/0/icon").asText()));
+            newWeather.setAlertDesc(inputVal.validateString(jsonTree.at("/alerts/description/").asText()));
+            newWeather.setAlertEvent(inputVal.validateString(jsonTree.at("/alerts/event/").asText()));
             newWeather.setDt(jsonTree.at("/daily/"+i+"/dt").asText());
             sevenDays.add(newWeather);
         }
