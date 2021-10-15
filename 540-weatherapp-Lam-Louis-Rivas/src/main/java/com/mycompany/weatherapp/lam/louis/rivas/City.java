@@ -1,7 +1,6 @@
 package com.mycompany.weatherapp.lam.louis.rivas;
 
 import java.util.Map;
-import java.util.Objects;
 
 /**
  * This class creates an object of type City
@@ -23,10 +22,6 @@ public class City {
 
     public String getName() {
         return name;
-    }
-    
-    public void setName(String name) {
-        this.name = name;
     }
 
     public String getState() {
