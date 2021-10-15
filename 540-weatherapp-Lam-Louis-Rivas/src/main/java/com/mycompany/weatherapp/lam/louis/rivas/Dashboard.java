@@ -25,7 +25,6 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.TextAlignment;
-import com.mycompany.weatherapp.lam.louis.rivas.Notification;
 import java.time.Instant;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
@@ -39,8 +38,7 @@ import java.util.logging.Logger;
  * @author Daniel Lam, Rodrigo Rivas, and Nael Louis
  **/
 public class Dashboard extends HBox {
-    //Flag to monitor the threads
-    private boolean running = true;
+
     //EXECUTABLE_PATH for real Joystick output
     private final String EXECUTABLE_PATH = "src/main/C++/DHT11";
     private String choiceValue = "Current Weather";
@@ -147,6 +145,7 @@ public class Dashboard extends HBox {
                 chosenCity = cityCB.getValue().toString();
             }
         });
+        
         //Label for cityCB
         Label cityCBLabel = new Label("Choose the city you want: ");
         cityCBLabel.setTextFill(Color.WHITE);
@@ -160,7 +159,6 @@ public class Dashboard extends HBox {
         FlowPane txtFp = new FlowPane(cityLabel, txtBox);
         
         //Hbox for the cityCB 
-        HBox cityCBBox = new HBox(cityCB);
         cityCBFp = new FlowPane(cityCBLabel, cityCB);
         cityCBFp.setVisible(false);
         
@@ -308,7 +306,6 @@ public class Dashboard extends HBox {
      * Call the exit method from Platform class to close the application
      */
     private void endApplication() {
-        this.running = false;
         Platform.exit();
     }
     
