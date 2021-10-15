@@ -1,8 +1,7 @@
 package com.mycompany.weatherapp.lam.louis.rivas;
 
 import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
-import java.util.Optional;
+
 /**
  *
  * @author Nael Louis 
