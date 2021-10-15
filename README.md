@@ -43,4 +43,4 @@ To set up the circuit, you will need:
 - DHT11 sensor x1
 - Resistor 10kΩ x1
 
-![Diagram](https://imgur.com/a/6zULmj7)
+[Diagram](https://imgur.com/a/6zULmj7)
