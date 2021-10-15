@@ -6,12 +6,9 @@
 package com.mycompany.weatherapp.lam.louis.rivas;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
-import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import com.mycompany.weatherapp.lam.louis.rivas.HTTPURLConnection;
 import static org.junit.Assert.*;
 
 /**
@@ -20,46 +17,44 @@ import static org.junit.Assert.*;
  */
 public class ReadJsonTest {
     
+    HTTPURLConnection newCon;
+    
     public ReadJsonTest() {
     }
     
     @BeforeClass
-    public static void setUpClass() {
+    void setUpClass() {
+        this.newCon = new HTTPURLConnection();
     }
     
-    @AfterClass
-    public static void tearDownClass() {
-    }
 
     /**
      * Test of readCurrentAPI method, of class ReadJson.
+     * This method fetches for the current day forecast and returns a weather
+     * object containing all the information.
      */
     @Test
     public void testReadCurrentAPI() throws Exception {
         System.out.println("readCurrentAPI");
-        String jsonString = "";
+        String jsonString = newCon.sendRequest(45.50, 73.56);
         ReadJson instance = new ReadJson();
-        Weather expResult = null;
         Weather result = instance.readCurrentAPI(jsonString);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        assertNotNull(result);
     }
 
     /**
      * Test of read7DaysAPI method, of class ReadJson.
+     * This method fetches for 7 days forecast and returns a list
+     * containing all the information.
      */
     @Test
     public void testRead7DaysAPI() throws Exception {
         System.out.println("read7DaysAPI");
-        //HTTPURLConnection newCon = HTTPURLConnection(10.0,10.0);
-        String jsonString = "";
+        String jsonString = newCon.sendRequest(45.50, 73.56);
         ReadJson instance = new ReadJson();
-        List<Weather> expResult = new ArrayList<>(7);
         List<Weather> result = instance.read7DaysAPI(jsonString);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        assertNotNull(result);
+
     }
 
 
