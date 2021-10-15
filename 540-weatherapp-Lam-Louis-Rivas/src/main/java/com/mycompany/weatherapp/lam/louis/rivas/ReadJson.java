@@ -40,6 +40,7 @@ public class ReadJson {
         jsonTree = mapper.readTree(jsonString);
         Weather weather = new Weather();
         
+        weather.setTimezone(jsonTree.at("/timezone").asText());
         weather.setTemp(jsonTree.at("/current/temp").asText()); // Setting the temperature
         weather.setHumidity(jsonTree.at("/current/humidity").asText());
         weather.setDescription(jsonTree.at("/current/weather/0/description").asText());
