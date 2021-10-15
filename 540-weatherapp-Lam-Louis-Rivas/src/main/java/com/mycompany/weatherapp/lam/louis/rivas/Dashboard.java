@@ -220,8 +220,8 @@ public class Dashboard extends HBox {
                                 +"\nWind gust: " + weather.getWindGust() + " km/h\nWind speed: " + weather.getWindSpeed() + " km/h\n"
                                 +"Pressure: " + weather.getPressure() + " mb\n" + "Visibility: " + weather.getVisibility() +" m\n"
                                 +"Sunrise: " + Instant.ofEpochSecond(unixSunrise).atZone(ZoneId.of(weather.getTimezone())).format(timeFormat) + "\n" 
-                                +"Sunset: " + Instant.ofEpochSecond(unixSunset).atZone(ZoneId.of(weather.getTimezone())).format(timeFormat) + "\n"
-                                +weather.getAlertEvent() + "\n" + weather.getAlertDesc();
+                                +"Sunset: " + Instant.ofEpochSecond(unixSunset).atZone(ZoneId.of(weather.getTimezone())).format(timeFormat) + "\nAlert Event: "
+                                +weather.getAlertEvent() + "\nAlert Description: " + weather.getAlertDesc();
                         weatherField.setText(weatherTxt);
                         
                         Image image = new Image(weather.getIcon());
