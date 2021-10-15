@@ -15,6 +15,9 @@ public class City {
     private String country;
     private Map<String, Double> coord;
 
+    public void setName(String name) {
+        this.name = name;
+    }
 
     public double getId() {
         return id;
