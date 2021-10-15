@@ -70,7 +70,7 @@ public class ReadJsonTest {
         ReadJson instance = new ReadJson();
         
         List<City> result = instance.searchCities(city);
-        assertNotNull(result);
+        assertEquals("longueuil", result.get(0).getName());
 
     }
     

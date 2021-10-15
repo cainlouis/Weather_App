@@ -66,8 +66,8 @@ public class ReadJson {
         weather.setWindSpeed(inputVal.validateString(jsonTree.at("/current/wind_speed").asText()));
         weather.setWindGust(inputVal.validateString(jsonTree.at("/current/wind_gust").asText()));
         weather.setIcon(jsonTree.at("/current/weather/0/icon").asText());
-        weather.setAlertDesc(inputVal.validateString(jsonTree.at("/alerts/description/").asText()));
-        weather.setAlertEvent(inputVal.validateString(jsonTree.at("/alerts/event/").asText()));
+        weather.setAlertDesc(inputVal.validateString(jsonTree.at("/alerts/0/description").asText()));
+        weather.setAlertEvent(inputVal.validateString(jsonTree.at("/alerts/0/event").asText()));
         return weather;
         
     }
