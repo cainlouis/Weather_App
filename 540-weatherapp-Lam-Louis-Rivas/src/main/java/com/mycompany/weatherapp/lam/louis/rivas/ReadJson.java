@@ -77,6 +77,7 @@ public class ReadJson {
             newWeather.setIcon(jsonTree.at("/daily/"+i+"/weather/0/icon").asText());
             newWeather.setAlertDesc(jsonTree.at("/alerts/description/").asText());
             newWeather.setAlertEvent(jsonTree.at("/alerts/event/").asText());
+            newWeather.setDt(jsonTree.at("/daily/"+i+"/dt").asText());
             sevenDays.add(newWeather);
         }
         
