@@ -43,7 +43,7 @@ public class SevenDayForecast extends VBox {
             Weather weatherObj = weatherList.get(i);
             var imageTile = TileBuilder.create()
                 .skinType(Tile.SkinType.IMAGE)
-                .prefSize(350, 300)
+                .prefSize(200, 200)
                 .textSize(Tile.TextSize.BIGGER)
                 .image(new Image(weatherObj.getIcon()))
                 .imageMask(Tile.ImageMask.ROUND)
@@ -67,9 +67,12 @@ public class SevenDayForecast extends VBox {
             TextArea weatherField = new TextArea(weatherInfo);
             weatherField.setEditable(false);
             weatherField.setWrapText(true);
+            weatherField.setPrefSize(200,300);
+                    
             weatherField.setStyle("-fx-control-inner-background: #2A2A2A; "
                      + "-fx-text-inner-color: white;"
-                     + "-fx-text-box-border: white;");
+                     + "-fx-text-box-border: transparent;"
+                     + "-fx-font-size: 13");
             
             VBox weatherVBox = new VBox(imageTile, weatherField);
             
@@ -78,7 +81,7 @@ public class SevenDayForecast extends VBox {
             
             var weatherTile = TileBuilder.create()
                 .skinType(Tile.SkinType.CUSTOM)
-                .prefSize(350, 300)
+                .prefSize(230, 500)
                 .textSize(Tile.TextSize.BIGGER)
                 .title(localDate.format(DateTimeFormatter.ofPattern("EE"
                         + ", MMM d y")))
@@ -107,7 +110,7 @@ public class SevenDayForecast extends VBox {
         
         var alertTile = TileBuilder.create()
                 .skinType(Tile.SkinType.CUSTOM)
-                .prefSize(350, 300)
+                .prefSize(814, 300)
                 .textSize(Tile.TextSize.BIGGER)
                 .title("Alerts")
                 .graphic(alertVBox)
@@ -120,26 +123,42 @@ public class SevenDayForecast extends VBox {
         
         var exitTile = TileBuilder.create()
                 .skinType(Tile.SkinType.CUSTOM)
-                .prefSize(350, 300)
+                .prefSize(814, 300)
                 .textSize(Tile.TextSize.BIGGER)
                 .title("Return")
                 .graphic(exit)
                 .build();
+
+        HBox weatherHbox = new HBox();
+        ArrayList<VBox> columns = new ArrayList<>();
+        VBox column = new VBox();
+        for (int i = 0; i < tileArr.size(); i++) {
+            column.getChildren().add(tileArr.get(i));
+            columns.add(column);
+            column = new VBox();
+            column.setSpacing(3);
+        }
+        weatherHbox.getChildren().addAll(columns);
+        weatherHbox.setSpacing(3);
+                
+        HBox alertAndExitHbox = new HBox();
+        alertAndExitHbox.getChildren().addAll(alertTile, exitTile);
+        alertAndExitHbox.setSpacing(3);
         
-        ArrayList<HBox> rows = new ArrayList<>();
-        HBox row = new HBox();
+        /*ArrayList<VBox> columns = new ArrayList<>();
+        VBox column = new VBox();
         for (int i = 0; i < tileArr.size(); i++) {
             if (i % 3 == 0) {
-                rows.add(row);
-                row = new HBox();
-                row.setSpacing(5);
+                columns.add(column);
+                column = new VBox();
+                column.setSpacing(5);
             }
-            row.getChildren().add(tileArr.get(i));
+            column.getChildren().add(tileArr.get(i));
         }
-        row.getChildren().addAll(alertTile, exitTile);
-        rows.add(row);
-        
-        this.getChildren().addAll(rows);
-        this.setSpacing(5);
+        columns.getChildren().addAll(alertTile, exitTile);
+        columns.add(column);*/
+
+        this.getChildren().addAll(weatherHbox, alertAndExitHbox);
+        this.setSpacing(3);
     }
 }

@@ -94,7 +94,7 @@ public class ReadJson {
        
     public List<City> searchCities(String city){
         List<City> newCities = new ArrayList<>();
-        for(City c : cities){
+        for (City c : cities){
             if(c.getName().equalsIgnoreCase(city)){
                 newCities.add(c);
             }
