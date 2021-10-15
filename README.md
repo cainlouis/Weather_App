@@ -3,7 +3,7 @@
 ## Team Members:
 
 - Nael Louis (1934115)
-- Rodrigo Alfas Rivas (1910674)
+- Rodrigo Rivas Alfaro (1910674)
 - Daniel Lam (1932789)
 
 ## Description
