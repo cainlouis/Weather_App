@@ -27,9 +27,6 @@ public class InputValidation {
         if (matcherObj.find()) {
             LOGGER.log(Level.SEVERE, "Black listed character found in input");
         }
-        else if (Pattern.matches("^[a-zA-Z]+$", toValidate)) {
-            return toValidate;
-        }
         return toValidate.replaceAll("[^A-Za-z0-9 ]", "");
     }
 
