@@ -5,39 +5,39 @@
  */
 package com.mycompany.weatherapp.lam.louis.rivas;
 
-import org.junit.After;
 import org.junit.AfterClass;
-import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
 /**
  *
- * @author Daniel Lam
+ * @author Rodrigo Rivas <rodrigo.rivas.org>
  */
 public class ProcessBuilderClassTest {
     
-    private ProcessBuilderClass processBuilder;
+    String theCmd;
+    ProcessBuilderClass instance;
+
     
-    /**
-     * Constructor for ProcessBuilderClassTest
-     */
     public ProcessBuilderClassTest() {
-        String path = "src/main/C++/DHT11";
-        this.processBuilder = new ProcessBuilderClass(path);
     }
     
+    @BeforeClass
+    void setUp() {
+        this.theCmd = "src/main/C++/DHT11";
+        this.instance = new ProcessBuilderClass(theCmd);
+    }
+
+
     /**
      * Test of startProcess method, of class ProcessBuilderClass.
      */
     @Test
     public void testStartProcess() throws Exception {
-        System.out.println("startProcess() tests:");
-        
-        Process expResult = processBuilder.startProcess();
-        assertNotNull(expResult);
-        
+        System.out.println("startProcess");
+        Process result = this.instance.startProcess();
+        assertNotNull(result);
     }
     
 }
