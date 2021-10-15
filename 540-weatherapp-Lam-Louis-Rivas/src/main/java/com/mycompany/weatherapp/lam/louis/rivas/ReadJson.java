@@ -61,7 +61,7 @@ public class ReadJson {
         jsonTree = mapper.readTree(jsonString);
         List<Weather> sevenDays = new ArrayList<Weather>();
         Weather newWeather;
-        for(int i = 1; i<8; i++){
+        for(int i = 0; i<7; i++){
             newWeather = new Weather();
             newWeather.setMaxTemp(jsonTree.at("/daily/"+i+"/temp/max").asText());
             newWeather.setMinTemp(jsonTree.at("/daily/"+i+"/temp/min").asText());
