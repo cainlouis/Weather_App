@@ -42,6 +42,7 @@ public class ReadJson {
         
         weather.setTimezone(jsonTree.at("/timezone").asText());
         weather.setTemp(jsonTree.at("/current/temp").asText()); // Setting the temperature
+        weather.setFeelsLike(jsonTree.at("/current/feels_like").asText());
         weather.setHumidity(jsonTree.at("/current/humidity").asText());
         weather.setDescription(jsonTree.at("/current/weather/0/description").asText());
         weather.setSunrise(jsonTree.at("/current/sunrise").asText());

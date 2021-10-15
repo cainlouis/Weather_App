@@ -28,6 +28,7 @@ public class Weather {
     private String alertEvent;
     private String alertDesc;
     private String dt;
+    private String feelsLike;
     
     public String getTimezone() {
         return timezone;
@@ -159,11 +160,19 @@ public class Weather {
     public String getDt() {
         return dt;
     }
+    
     public void setDt(String dt) {
         this.dt = dt;
     }
     
-
+    public String getFeelsLike() {
+        return feelsLike;
+    }
+    
+    public void setFeelsLike(String feelsLike) {
+        this.feelsLike = feelsLike;
+    }
+    
     @Override
     public String toString() {
         return "Weather {" + "temp=" + temp + ", maxTemp=" + maxTemp + ", minTemp=" + minTemp + ", humidity=" + humidity + ", description=" + description + ", icon=" + getIcon() + '}';

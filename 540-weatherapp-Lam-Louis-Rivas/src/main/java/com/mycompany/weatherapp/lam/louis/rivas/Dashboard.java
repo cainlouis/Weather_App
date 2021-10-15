@@ -214,7 +214,7 @@ public class Dashboard extends HBox {
                         long unixSunset = Long.parseLong(weather.getSunset());
                         
                         String weatherTxt = "Temperature: " + weather.getTemp() + "°C\n"
-                                +"Max/min temperature: " + weather.getMaxTemp() + "/" + weather.getMinTemp() + "°C\n"
+                                +"Feels Like: " + weather.getFeelsLike() + "°C\n"
                                 +"Humidity: " + weather.getHumidity() + "%\n" + "UV index: " + weather.getUv()
                                 +"\nWind gust: " + weather.getWindGust() + "km/h\nWind speed: " + weather.getWindSpeed() + "km/h\n"
                                 +"Pressure: " + weather.getPressure() + "mb\n" + "Visibility: " + weather.getVisibility() +"m\n"
