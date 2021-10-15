@@ -54,8 +54,9 @@ public class InputValidationTest {
     @Test
     public void testValidateStringWithOtherCharacter() {
         System.out.println("validateString with non alphabetical characters");
-        String s = "ci'ty!";
-        String expResult = "city";
+        String s = "ci'ty!.";
+        String expResult = "city.";
+        System.out.println(expResult);
         String result = instance.validateString(s);
         assertEquals(expResult, result);
     }
