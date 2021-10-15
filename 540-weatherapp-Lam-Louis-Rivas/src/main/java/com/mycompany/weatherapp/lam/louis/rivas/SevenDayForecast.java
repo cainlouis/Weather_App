@@ -59,8 +59,8 @@ public class SevenDayForecast extends VBox {
                                + "Humidity: " + weatherObj.getHumidity() + "%" + "\n"
                                + "Sunrise: " + Instant.ofEpochSecond(unixSunrise).atZone(ZoneId.of(weatherObj.getTimezone())).format(timeFormat) + "\n"
                                + "Sunset: " + Instant.ofEpochSecond(unixSunset).atZone(ZoneId.of(weatherObj.getTimezone())).format(timeFormat) + "\n"
-                               + "Pressure: " + weatherObj.getPressure() + " kPa" + "\n"
-                               + "UV: " + weatherObj.getUv() + "\n"
+                               + "Pressure: " + weatherObj.getPressure() + " hPa" + "\n"
+                               + "UV Index: " + weatherObj.getUv() + "\n"
                                + "Wind Speed: " + weatherObj.getWindSpeed() + " km/h" + "\n"
                                + "Wind Gust: " + weatherObj.getWindGust() + " km/h";
             
