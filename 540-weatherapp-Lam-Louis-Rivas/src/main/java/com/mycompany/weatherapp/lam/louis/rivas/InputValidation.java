@@ -22,6 +22,7 @@ public class InputValidation {
         String toValidate = s.toLowerCase();
 
         toValidate = Normalizer.normalize(toValidate, Normalizer.Form.NFKC);
+        toValidate = Normalizer.normalize(toValidate, Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", "");
         Pattern patternObj = Pattern.compile("[<>]");
         Matcher matcherObj = patternObj.matcher(toValidate);
         if (matcherObj.find()) {
