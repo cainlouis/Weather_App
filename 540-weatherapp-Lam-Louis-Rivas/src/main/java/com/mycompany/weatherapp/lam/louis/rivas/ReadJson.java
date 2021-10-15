@@ -97,8 +97,8 @@ public class ReadJson {
             newWeather.setWindGust(inputVal.validateString(jsonTree.at("/daily/"+i+"/wind_gust").asText()));
             newWeather.setDescription(inputVal.validateString(jsonTree.at("/daily/"+i+"/weather/0/description").asText()));
             newWeather.setIcon(inputVal.validateString(jsonTree.at("/daily/"+i+"/weather/0/icon").asText()));
-            newWeather.setAlertDesc(inputVal.validateString(jsonTree.at("/alerts/description/").asText()));
-            newWeather.setAlertEvent(inputVal.validateString(jsonTree.at("/alerts/event/").asText()));
+            newWeather.setAlertDesc(inputVal.validateString(jsonTree.at("/alerts/0/description").asText()));
+            newWeather.setAlertEvent(inputVal.validateString(jsonTree.at("/alerts/0/event").asText()));
             newWeather.setDt(jsonTree.at("/daily/"+i+"/dt").asText());
             sevenDays.add(newWeather);
         }
