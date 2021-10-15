@@ -8,12 +8,19 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 /**
- *
+ * This class takes charge to make a request to the 
+ * based on the latitude and longitude
  * @author Nael Louis
  */
 public class HTTPURLConnection {
     
     private final String key = "&appid=c9ade50378e0af933f0b33d8eec7eafe";
+    
+ /** 
+  * @param it takes the latitude
+ * @param it takes the longitude
+ * @return String of the json fetched from the api
+ */
     
      String sendRequest(Double lat,Double lon) throws IOException{
     
