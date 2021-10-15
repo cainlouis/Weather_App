@@ -37,7 +37,7 @@ public class City {
 
     @Override
     public String toString() {
-        return "City:" + name + ", Country:" + country + ", Longitude: " + coord.get("lon") + ", Latitude: " + coord.get("lat");
+        return name + ", " + country + " (" + coord.get("lon") + ", " + coord.get("lat")+ ")";
     }
 
     
