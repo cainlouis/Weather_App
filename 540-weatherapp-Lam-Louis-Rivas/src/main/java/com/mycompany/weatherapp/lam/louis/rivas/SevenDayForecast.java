@@ -101,9 +101,9 @@ public class SevenDayForecast extends VBox {
         //Alert text area
         TextArea alertTextArea = new TextArea();
         String color = "white";
-        
+
         String alert = "There are no alerts at the moment!";
-        if (weatherList.get(0).getAlertEvent() == null && weatherList.get(0).getAlertDesc() == null) {
+        if (weatherList.get(0).getAlertEvent() != null && weatherList.get(0).getAlertDesc() != null && !weatherList.get(0).getAlertEvent().equals("")) {
             alert = weatherList.get(0).getAlertEvent() + "\n" + weatherList.get(0).getAlertDesc();
             color = "#c74e30";
         }
