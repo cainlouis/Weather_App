@@ -43,6 +43,13 @@ public class ReadJson {
         weather.setTemp(jsonTree.at("/current/temp").asText()); // Setting the temperature
         weather.setHumidity(jsonTree.at("/current/humidity").asText());
         weather.setDescription(jsonTree.at("/current/weather/0/description").asText());
+        weather.setSunrise(jsonTree.at("/current/sunrise").asText());
+        weather.setSunset(jsonTree.at("/current/sunset").asText());
+        weather.setPressure(jsonTree.at("/current/pressure").asText());
+        weather.setUv(jsonTree.at("/current/uvi").asText());
+        weather.setVisibility(jsonTree.at("/current/visibility").asText());
+        weather.setWindSpeed(jsonTree.at("/current/wind_speed").asText());
+        weather.setWindGust(jsonTree.at("/current/wind_gust").asText());
         weather.setIcon(jsonTree.at("/current/weather/0/icon").asText());
         weather.setAlertDesc(jsonTree.at("/alerts/description/").asText());
         weather.setAlertEvent(jsonTree.at("/alerts/event/").asText());
@@ -59,6 +66,13 @@ public class ReadJson {
             newWeather.setMaxTemp(jsonTree.at("/daily/"+i+"/temp/max").asText());
             newWeather.setMinTemp(jsonTree.at("/daily/"+i+"/temp/min").asText());
             newWeather.setHumidity(jsonTree.at("/daily/"+i+"/humidity").asText());
+            newWeather.setSunrise(jsonTree.at("/daily/"+i+"/sunrise").asText());
+            newWeather.setSunset(jsonTree.at("/daily/"+i+"/sunset").asText());
+            newWeather.setPressure(jsonTree.at("/daily/"+i+"/pressure").asText());
+            newWeather.setUv(jsonTree.at("/daily/"+i+"/uvi").asText());
+            //newWeather.setVisibility(jsonTree.at("/daily/"+i+"/uvi").asText());
+            newWeather.setWindSpeed(jsonTree.at("/daily/"+i+"/wind_speed").asText());
+            newWeather.setWindGust(jsonTree.at("/daily/"+i+"/wind_gust").asText());
             newWeather.setDescription(jsonTree.at("/daily/"+i+"/weather/0/description").asText());
             newWeather.setIcon(jsonTree.at("/daily/"+i+"/weather/0/icon").asText());
             newWeather.setAlertDesc(jsonTree.at("/alerts/description/").asText());
