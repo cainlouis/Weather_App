@@ -26,6 +26,7 @@ public class Weather {
     private String iconUrl = "http://openweathermap.org/img/wn/";
     private String alertEvent;
     private String alertDesc;
+    private String dt;
 
     public String getTemp() {
         return temp;
@@ -147,6 +148,12 @@ public class Weather {
         this.windGust = windGust;
     }
     
+    public String getDt() {
+        return dt;
+    }
+    public void setDt(String dt) {
+        this.dt = dt;
+    }
     
 
     @Override
