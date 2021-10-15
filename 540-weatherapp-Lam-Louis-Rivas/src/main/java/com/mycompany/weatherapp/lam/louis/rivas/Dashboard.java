@@ -180,7 +180,7 @@ public class Dashboard extends HBox {
                 notify.warningDialog("City field is empty, enter a city name.");
             }
             else {
-                //Sanitize the user input
+                //Validate the user input
                 getCity();
                 //Clear choiceBox for cities so it disappear when there's only one city or when the user input changes
                 clearChoiceBox();
@@ -310,23 +310,23 @@ public class Dashboard extends HBox {
     }
     
     /**
-     * This method sanitizes the input from the user in order to look
+     * This method validate the input from the user in order to look
      * for the city.
     */
     public void getCity() {
-        String toSanitize = cityField.getText();
-        toSanitize = toSanitize.toLowerCase();
+        String toValidate = cityField.getText();
+        toValidate = toValidate.toLowerCase();
      
-        toSanitize = Normalizer.normalize(toSanitize, Form.NFKC);   
+        toValidate = Normalizer.normalize(toValidate, Form.NFKC);   
         Pattern patternObj = Pattern.compile("[<>]");
-        Matcher matcherObj = patternObj.matcher(toSanitize);
+        Matcher matcherObj = patternObj.matcher(toValidate);
         if (matcherObj.find()) {
             cityField.setText("");
             cityCBFp.setVisible(false);
             notify.warningDialog("Invalid character(s) has been found, only use letters for the city name");
         }
-        else if (Pattern.matches("^[a-zA-Z]+$", toSanitize)) {
-            city = toSanitize;
+        else if (Pattern.matches("^[a-zA-Z]+$", toValidate)) {
+            city = toValidate;
         }
     }
     
