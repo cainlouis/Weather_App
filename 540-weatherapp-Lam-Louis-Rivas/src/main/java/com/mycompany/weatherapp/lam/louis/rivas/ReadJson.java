@@ -29,12 +29,23 @@ public class ReadJson {
         this.cities = readCities();
     }
     
-   
+   /**
+     * Create a list of available cities using the json provided by weatherapi
+     * @return List of cities
+     * should follow 
+     */
     private List readCities() throws FileNotFoundException, IOException {
         String jsonPath = "src/main/Json/city.list.min.json";
         List <City> cities = Arrays.asList(mapper.readValue(Paths.get(jsonPath).toFile(), City[].class));
         return cities;
     }
+    
+    /**
+     * Create a weather object using the information fetched from the api
+     * @param jsonString contains the response from the weatherapi 
+     * @return Weather object with all the information.
+     * should follow 
+     */
     
     public Weather readCurrentAPI(String jsonString) throws JsonProcessingException{
         jsonTree = mapper.readTree(jsonString);
@@ -58,6 +69,13 @@ public class ReadJson {
         return weather;
         
     }
+    
+    /**
+     * Create a List of weather objects using the information fetched from the api for 7 days
+     * @param jsonString contains the response from the weatherapi 
+     * @return List of Weather objects with all the information.
+     * should follow 
+     */
     
     public List<Weather> read7DaysAPI(String jsonString) throws JsonProcessingException{
         jsonTree = mapper.readTree(jsonString);
@@ -87,11 +105,24 @@ public class ReadJson {
         
         return sevenDays;
     }
+    
+    /**
+     * Returns the cities variable containing all the available cities.
+     * @return List of cities.
+     * should follow 
+     */
 
     public List<City> getCities() {
         return cities;
     }
-       
+    
+    
+    /**
+     * Create a weather object using the information fetched from the api
+     * @param jsonString contains the response from the weatherapi 
+     * @return Weather object with all the information.
+     * should follow 
+     */
     public List<City> searchCities(String city){
         List<City> newCities = new ArrayList<>();
         for (City c : cities){
