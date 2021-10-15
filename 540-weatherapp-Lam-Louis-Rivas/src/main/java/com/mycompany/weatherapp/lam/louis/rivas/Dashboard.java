@@ -33,8 +33,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 /***
- *
+ * Dashboard class displays the GUI of each tile inside the dashboard 
  * @author Daniel Lam, Rodrigo Rivas, and Nael Louis
  **/
 public class Dashboard extends HBox {
@@ -57,8 +58,10 @@ public class Dashboard extends HBox {
     private FlowPane cityCBFp;
     private InputValidation inputVal;
 
-
-    
+    /**
+     * Default Constructor for Dashboard
+     * @throws IOException 
+     */
     public Dashboard() throws IOException {
         this.initiateProcess();
         this.buildScreen();
@@ -237,7 +240,7 @@ public class Dashboard extends HBox {
             }
         });
         
-        //Tile 
+        //Update Tile 
         var updateTile = TileBuilder.create()
                 .skinType(SkinType.CUSTOM)
                 .prefSize(350, 300)
@@ -267,7 +270,7 @@ public class Dashboard extends HBox {
                 .graphic(tempHumidityBox)
                 .build();
         
-                    /*Tile for exit button*/
+        /*Tile for exit button*/
                 
         //Create button and event handler
         Button exit = new Button("Exit");
@@ -275,7 +278,7 @@ public class Dashboard extends HBox {
             endApplication();
         });
         
-        //Tile 
+        //Exit Tile 
         var exitTile = TileBuilder.create()
                 .skinType(SkinType.CUSTOM)
                 .prefSize(350, 300)
@@ -331,11 +334,20 @@ public class Dashboard extends HBox {
         }
     }
     
+    /**
+     * initiateProcess() starts up the Process to run the DHT11 code and returns the process
+     * @throws IOException 
+     */
     private void initiateProcess() throws IOException {
         ProcessBuilderClass processBuilderObj = new ProcessBuilderClass(EXECUTABLE_PATH);
         Process processObj = processBuilderObj.startProcess();   
         startThread(processObj);
     }
+    
+    /**
+     * startThread() takes the Process object and runs a thread that display output to Temperature tile
+     * @param processObj 
+     */
     private void startThread(Process processObj) {
         Thread threadObj = new Thread(() -> {
             try ( var reader = new BufferedReader(new InputStreamReader(processObj.getInputStream()))) {
