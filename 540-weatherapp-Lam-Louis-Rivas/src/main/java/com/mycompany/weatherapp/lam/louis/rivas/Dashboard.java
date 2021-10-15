@@ -360,7 +360,7 @@ public class Dashboard extends HBox {
      * @param line The output of the c++ code
      */
     private void runThread(String line) {
-        Platform.runLater(new Runnable() { //TO-DO: test without Platform.runLater()
+        Platform.runLater(new Runnable() {
             @Override
             public void run() {
                 tempHumidity.appendText(line + "\n");
