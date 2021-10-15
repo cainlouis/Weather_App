@@ -55,6 +55,7 @@ public class Dashboard extends HBox {
     private List<City> citiesFromInput;
     private ChoiceBox cityCB;
     private FlowPane cityCBFp;
+    private InputValidation inputVal;
 
 
     
