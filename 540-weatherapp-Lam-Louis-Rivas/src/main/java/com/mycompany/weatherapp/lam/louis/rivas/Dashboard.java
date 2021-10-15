@@ -26,6 +26,9 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.TextAlignment;
 import com.mycompany.weatherapp.lam.louis.rivas.Notification;
+import java.time.Instant;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
@@ -205,15 +208,21 @@ public class Dashboard extends HBox {
                         //create the query as a string (json) and fetch weather
                         json = httpConnection.sendRequest(coord.get("lat"), coord.get("lon"));
                         Weather weather = rj.readCurrentAPI(json);
+                        DateTimeFormatter timeFormat = DateTimeFormatter.ofPattern("h:mm:ss a zz");
+                        
+                        long unixSunrise = Long.parseLong(weather.getSunrise());
+                        long unixSunset = Long.parseLong(weather.getSunset());
                         
                         String weatherTxt = "Temperature: " + weather.getTemp() + "°C\n"
-                                +"Max/min temperature: " + weather.getMaxTemp() + "/" + weather.getMinTemp() + "°C\n"
+                                +"Feels Like: " + weather.getFeelsLike() + "°C\n"
                                 +"Humidity: " + weather.getHumidity() + "%\n" + "UV index: " + weather.getUv()
-                                +"\nWind gust: " + weather.getWindGust() + "km/h\nWind speed: " + weather.getWindSpeed() + "km/h\n"
-                                +"Pressure: " + weather.getPressure() + "mb\n" + "Visibility: " + weather.getVisibility() +"m\n"
-                                +"Sunrise: " + weather.getSunrise() + "\n" + "Sunset: " + weather.getSunset() + "\n"
+                                +"\nWind gust: " + weather.getWindGust() + " km/h\nWind speed: " + weather.getWindSpeed() + " km/h\n"
+                                +"Pressure: " + weather.getPressure() + " mb\n" + "Visibility: " + weather.getVisibility() +" m\n"
+                                +"Sunrise: " + Instant.ofEpochSecond(unixSunrise).atZone(ZoneId.of(weather.getTimezone())).format(timeFormat) + "\n" 
+                                +"Sunset: " + Instant.ofEpochSecond(unixSunset).atZone(ZoneId.of(weather.getTimezone())).format(timeFormat) + "\n"
                                 +weather.getAlertEvent() + "\n" + weather.getAlertDesc();
                         weatherField.setText(weatherTxt);
+                        
                         Image image = new Image(weather.getIcon());
                         imgTile.setImage(image);
                         imgTile.setText(weather.getDescription());
