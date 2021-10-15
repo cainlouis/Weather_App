@@ -33,7 +33,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
 /***
  *
  * @author Daniel Lam, Rodrigo Rivas, and Nael Louis
@@ -317,7 +316,8 @@ public class Dashboard extends HBox {
         String toValidate = cityField.getText();
         toValidate = toValidate.toLowerCase();
      
-        toValidate = Normalizer.normalize(toValidate, Form.NFKC);   
+        toValidate = Normalizer.normalize(toValidate, Form.NFKC);
+        toValidate = Normalizer.normalize(toValidate, Form.NFD).replaceAll("[^\\p{ASCII}]", "");
         Pattern patternObj = Pattern.compile("[<>]");
         Matcher matcherObj = patternObj.matcher(toValidate);
         if (matcherObj.find()) {
