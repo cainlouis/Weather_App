@@ -25,7 +25,6 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.TextAlignment;
-import com.mycompany.weatherapp.lam.louis.rivas.Notification;
 import java.time.Instant;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
@@ -33,13 +32,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 /***
- *
+ * Dashboard class displays the GUI of each tile inside the dashboard 
  * @author Daniel Lam, Rodrigo Rivas, and Nael Louis
  **/
 public class Dashboard extends HBox {
-    //Flag to monitor the threads
-    private boolean running = true;
+
     //EXECUTABLE_PATH for real Joystick output
     private final String EXECUTABLE_PATH = "src/main/C++/DHT11";
     private String choiceValue = "Current Weather";
@@ -57,8 +56,10 @@ public class Dashboard extends HBox {
     private FlowPane cityCBFp;
     private InputValidation inputVal;
 
-
-    
+    /**
+     * Default Constructor for Dashboard
+     * @throws IOException 
+     */
     public Dashboard() throws IOException {
         this.initiateProcess();
         this.buildScreen();
@@ -144,6 +145,7 @@ public class Dashboard extends HBox {
                 chosenCity = cityCB.getValue().toString();
             }
         });
+        
         //Label for cityCB
         Label cityCBLabel = new Label("Choose the city you want: ");
         cityCBLabel.setTextFill(Color.WHITE);
@@ -157,7 +159,6 @@ public class Dashboard extends HBox {
         FlowPane txtFp = new FlowPane(cityLabel, txtBox);
         
         //Hbox for the cityCB 
-        HBox cityCBBox = new HBox(cityCB);
         cityCBFp = new FlowPane(cityCBLabel, cityCB);
         cityCBFp.setVisible(false);
         
@@ -237,7 +238,7 @@ public class Dashboard extends HBox {
             }
         });
         
-        //Tile 
+        //Update Tile 
         var updateTile = TileBuilder.create()
                 .skinType(SkinType.CUSTOM)
                 .prefSize(350, 300)
@@ -267,7 +268,7 @@ public class Dashboard extends HBox {
                 .graphic(tempHumidityBox)
                 .build();
         
-                    /*Tile for exit button*/
+        /*Tile for exit button*/
                 
         //Create button and event handler
         Button exit = new Button("Exit");
@@ -275,7 +276,7 @@ public class Dashboard extends HBox {
             endApplication();
         });
         
-        //Tile 
+        //Exit Tile 
         var exitTile = TileBuilder.create()
                 .skinType(SkinType.CUSTOM)
                 .prefSize(350, 300)
@@ -305,7 +306,6 @@ public class Dashboard extends HBox {
      * Call the exit method from Platform class to close the application
      */
     private void endApplication() {
-        this.running = false;
         Platform.exit();
     }
     
@@ -331,11 +331,20 @@ public class Dashboard extends HBox {
         }
     }
     
+    /**
+     * initiateProcess() starts up the Process to run the DHT11 code and returns the process
+     * @throws IOException 
+     */
     private void initiateProcess() throws IOException {
         ProcessBuilderClass processBuilderObj = new ProcessBuilderClass(EXECUTABLE_PATH);
         Process processObj = processBuilderObj.startProcess();   
         startThread(processObj);
     }
+    
+    /**
+     * startThread() takes the Process object and runs a thread that display output to Temperature tile
+     * @param processObj 
+     */
     private void startThread(Process processObj) {
         Thread threadObj = new Thread(() -> {
             try ( var reader = new BufferedReader(new InputStreamReader(processObj.getInputStream()))) {
