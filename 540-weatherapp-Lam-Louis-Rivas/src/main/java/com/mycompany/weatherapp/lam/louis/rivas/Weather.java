@@ -10,6 +10,7 @@ package com.mycompany.weatherapp.lam.louis.rivas;
  * @author Rodrigo Rivas <rodrigo.rivas.org>
  */
 public class Weather {
+    private String timezone;
     private String temp;
     private String sunrise;
     private String sunset;
@@ -27,7 +28,15 @@ public class Weather {
     private String alertEvent;
     private String alertDesc;
     private String dt;
-
+    private String feelsLike;
+    
+    public String getTimezone() {
+        return timezone;
+    }
+    public void setTimezone(String timezone) {
+        this.timezone = timezone;
+    }
+    
     public String getTemp() {
         return temp;
     }
@@ -151,11 +160,19 @@ public class Weather {
     public String getDt() {
         return dt;
     }
+    
     public void setDt(String dt) {
         this.dt = dt;
     }
     
-
+    public String getFeelsLike() {
+        return feelsLike;
+    }
+    
+    public void setFeelsLike(String feelsLike) {
+        this.feelsLike = feelsLike;
+    }
+    
     @Override
     public String toString() {
         return "Weather {" + "temp=" + temp + ", maxTemp=" + maxTemp + ", minTemp=" + minTemp + ", humidity=" + humidity + ", description=" + description + ", icon=" + getIcon() + '}';
