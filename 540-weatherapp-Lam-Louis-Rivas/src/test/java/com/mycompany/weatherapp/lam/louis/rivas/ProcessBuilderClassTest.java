@@ -16,17 +16,17 @@ import static org.junit.Assert.*;
  */
 public class ProcessBuilderClassTest {
     
-    String theCmd;
-    ProcessBuilderClass instance;
+    private static String theCmd;
+    private static ProcessBuilderClass instance;
 
     
     public ProcessBuilderClassTest() {
     }
     
     @BeforeClass
-    void setUp() {
-        this.theCmd = "src/main/C++/DHT11";
-        this.instance = new ProcessBuilderClass(theCmd);
+    public static void setUp() {
+        theCmd = "src/main/C++/DHT11";
+        instance = new ProcessBuilderClass(theCmd);
     }
 
 
