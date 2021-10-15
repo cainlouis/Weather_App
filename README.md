@@ -32,3 +32,15 @@ The project contains many necessary dependancies that are crucial for the projec
 
 Enjoy!
 
+## Setting Up the circuit
+
+To set up the circuit, you will need:
+
+- Raspberry Pi (with 40 GPIO) x1
+- GPIO Expansion Board & Ribbon Cable x1
+- Breadboard x1
+- Jumper Wire x4
+- DHT11 sensor x1
+- Resistor 10kΩ x1
+
+![Diagram](https://imgur.com/a/6zULmj7)
