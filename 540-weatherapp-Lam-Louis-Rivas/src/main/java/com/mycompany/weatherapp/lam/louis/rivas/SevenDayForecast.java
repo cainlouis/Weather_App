@@ -36,23 +36,34 @@ public class SevenDayForecast extends VBox {
     }
     private void buildScreen() {
         LocalDate localDate;
-        //String date = localDate.format(DateTimeFormatter.ofPattern("E, MMM d y"));
+        DateTimeFormatter timeFormat = DateTimeFormatter.ofPattern("h:mm:ss a zz");
         
         ArrayList<Tile> tileArr = new ArrayList<>();
-        for (int i = 0; i < weatherList.size(); i++) {          
+        for (int i = 0; i < weatherList.size(); i++) {   
+            Weather weatherObj = weatherList.get(i);
             var imageTile = TileBuilder.create()
                 .skinType(Tile.SkinType.IMAGE)
                 .prefSize(350, 300)
                 .textSize(Tile.TextSize.BIGGER)
-                .image(new Image(weatherList.get(i).getIcon()))
+                .image(new Image(weatherObj.getIcon()))
                 .imageMask(Tile.ImageMask.ROUND)
-                .text(weatherList.get(i).getDescription())
+                .text(weatherObj.getDescription())
                 .textAlignment(TextAlignment.CENTER)
                 .build();
             
-            String weatherInfo = "Max temperature: " + weatherList.get(i).getMaxTemp() + "°C" + "\n"
-                               + "Min temperature: " + weatherList.get(i).getMinTemp() + "°C" + "\n"
-                               + "Humidity: " + weatherList.get(i).getHumidity() + "%";
+            long unixSunrise = Long.parseLong(weatherObj.getSunrise());
+            long unixSunset = Long.parseLong(weatherObj.getSunset());
+            
+            String weatherInfo = "Max temperature: " + weatherObj.getMaxTemp() + "°C" + "\n"
+                               + "Min temperature: " + weatherObj.getMinTemp() + "°C" + "\n"
+                               + "Humidity: " + weatherObj.getHumidity() + "%" + "\n"
+                               + "Sunrise: " + Instant.ofEpochSecond(unixSunrise).atZone(ZoneId.of(weatherObj.getTimezone())).format(timeFormat) + "\n"
+                               + "Sunset: " + Instant.ofEpochSecond(unixSunset).atZone(ZoneId.of(weatherObj.getTimezone())).format(timeFormat) + "\n"
+                               + "Pressure: " + weatherObj.getPressure() + " kPa" + "\n"
+                               + "UV: " + weatherObj.getUv() + "\n"
+                               + "Wind Speed: " + weatherObj.getWindSpeed() + " km/h" + "\n"
+                               + "Wind Gust: " + weatherObj.getWindGust() + " km/h";
+            
             TextArea weatherField = new TextArea(weatherInfo);
             weatherField.setEditable(false);
             weatherField.setWrapText(true);
@@ -62,7 +73,7 @@ public class SevenDayForecast extends VBox {
             
             VBox weatherVBox = new VBox(imageTile, weatherField);
             
-            long unixTime = Long.parseLong(weatherList.get(i).getDt());
+            long unixTime = Long.parseLong(weatherObj.getDt());
             localDate = LocalDate.ofInstant(Instant.ofEpochSecond(unixTime), ZoneId.systemDefault());
             
             var weatherTile = TileBuilder.create()
