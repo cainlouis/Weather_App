@@ -128,6 +128,7 @@ public class ReadJson {
         List<City> newCities = new ArrayList<>();
         for (City c : cities){
             if(inputVal.validateString(c.getName()).equalsIgnoreCase(city)){
+                c.setName(inputVal.validateString(c.getName()));
                 newCities.add(c);
             }
         }
