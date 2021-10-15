@@ -18,7 +18,7 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 /**
- *
+ * SevenDayForecastTest tests the output of SevenDayForecastTest
  * @author Daniel Lam
  */
 public class SevenDayForecastTest {
