@@ -63,6 +63,7 @@ public class ReadJson {
         Weather newWeather;
         for(int i = 0; i<7; i++){
             newWeather = new Weather();
+            newWeather.setTimezone(jsonTree.at("/timezone").asText());
             newWeather.setMaxTemp(jsonTree.at("/daily/"+i+"/temp/max").asText());
             newWeather.setMinTemp(jsonTree.at("/daily/"+i+"/temp/min").asText());
             newWeather.setHumidity(jsonTree.at("/daily/"+i+"/humidity").asText());

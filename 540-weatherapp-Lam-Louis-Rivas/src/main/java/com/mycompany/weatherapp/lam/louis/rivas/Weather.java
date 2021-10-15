@@ -10,6 +10,7 @@ package com.mycompany.weatherapp.lam.louis.rivas;
  * @author Rodrigo Rivas <rodrigo.rivas.org>
  */
 public class Weather {
+    private String timezone;
     private String temp;
     private String sunrise;
     private String sunset;
@@ -27,7 +28,14 @@ public class Weather {
     private String alertEvent;
     private String alertDesc;
     private String dt;
-
+    
+    public String getTimezone() {
+        return timezone;
+    }
+    public void setTimezone(String timezone) {
+        this.timezone = timezone;
+    }
+    
     public String getTemp() {
         return temp;
     }
