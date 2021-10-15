@@ -27,6 +27,13 @@ import javafx.scene.text.TextAlignment;
  */
 public class SevenDayForecast extends VBox {
     private List<Weather> weatherList;
+    private DateTimeFormatter timeFormat;
+    
+    //Default Constructor for testing
+    public SevenDayForecast() {
+        this.weatherList = weatherList;
+        this.timeFormat = DateTimeFormatter.ofPattern("h:mm:ss a zz");
+    }
     
     /**
      * Parameterized Constructor for SevenDayForecast
@@ -35,6 +42,7 @@ public class SevenDayForecast extends VBox {
      */
     public SevenDayForecast(List<Weather> weatherList) throws IOException {
         this.weatherList = weatherList;
+        this.timeFormat = DateTimeFormatter.ofPattern("h:mm:ss a zz");
         this.buildScreen();
     }
     /**
@@ -42,7 +50,6 @@ public class SevenDayForecast extends VBox {
      */
     private void buildScreen() {
         LocalDate localDate;
-        DateTimeFormatter timeFormat = DateTimeFormatter.ofPattern("h:mm:ss a zz");
         
         //Loop through all 7 day forecast Weather objects
         ArrayList<Tile> tileArr = new ArrayList<>();
@@ -62,18 +69,7 @@ public class SevenDayForecast extends VBox {
                 .textAlignment(TextAlignment.CENTER)
                 .build();
             
-            long unixSunrise = Long.parseLong(weatherObj.getSunrise());
-            long unixSunset = Long.parseLong(weatherObj.getSunset());
-            
-            String weatherInfo = "Max temperature: " + weatherObj.getMaxTemp() + "°C" + "\n"
-                               + "Min temperature: " + weatherObj.getMinTemp() + "°C" + "\n"
-                               + "Humidity: " + weatherObj.getHumidity() + "%" + "\n"
-                               + "Sunrise: " + Instant.ofEpochSecond(unixSunrise).atZone(ZoneId.of(weatherObj.getTimezone())).format(timeFormat) + "\n"
-                               + "Sunset: " + Instant.ofEpochSecond(unixSunset).atZone(ZoneId.of(weatherObj.getTimezone())).format(timeFormat) + "\n"
-                               + "Pressure: " + weatherObj.getPressure() + " hPa" + "\n"
-                               + "UV Index: " + weatherObj.getUv() + "\n"
-                               + "Wind Speed: " + weatherObj.getWindSpeed() + " km/h" + "\n"
-                               + "Wind Gust: " + weatherObj.getWindGust() + " km/h";
+            String weatherInfo = getWeatherInfo(weatherObj);
             
             TextArea weatherField = new TextArea(weatherInfo);
             weatherField.setEditable(false);
@@ -165,5 +161,26 @@ public class SevenDayForecast extends VBox {
         //Assign entire layout to SevenDayForecast object
         this.getChildren().addAll(weatherHbox, alertAndExitHbox);
         this.setSpacing(3);
+    }
+    /**
+     * getWeatherInfo returns a String that contains all of the weather information
+     * @param weatherObj
+     * @return weatherInfo
+     */
+    public String getWeatherInfo(Weather weatherObj) {
+        long unixSunrise = Long.parseLong(weatherObj.getSunrise());
+        long unixSunset = Long.parseLong(weatherObj.getSunset());
+
+        String weatherInfo = "Max temperature: " + weatherObj.getMaxTemp() + "°C" + "\n"
+                + "Min temperature: " + weatherObj.getMinTemp() + "°C" + "\n"
+                + "Humidity: " + weatherObj.getHumidity() + "%" + "\n"
+                + "Sunrise: " + Instant.ofEpochSecond(unixSunrise).atZone(ZoneId.of(weatherObj.getTimezone())).format(timeFormat) + "\n"
+                + "Sunset: " + Instant.ofEpochSecond(unixSunset).atZone(ZoneId.of(weatherObj.getTimezone())).format(timeFormat) + "\n"
+                + "Pressure: " + weatherObj.getPressure() + " hPa" + "\n"
+                + "UV Index: " + weatherObj.getUv() + "\n"
+                + "Wind Speed: " + weatherObj.getWindSpeed() + " km/h" + "\n"
+                + "Wind Gust: " + weatherObj.getWindGust() + " km/h";
+
+        return weatherInfo;
     }
 }
