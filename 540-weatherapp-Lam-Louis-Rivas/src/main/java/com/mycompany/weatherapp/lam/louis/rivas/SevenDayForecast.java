@@ -15,32 +15,43 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Text;
-import javafx.scene.image.ImageView;
 import javafx.scene.text.TextAlignment;
 
 /**
- *
+ * SevenDayForecast class contains all the code to display the GUI of the 7 day forecast
  * @author Daniel Lam
  */
 public class SevenDayForecast extends VBox {
     private List<Weather> weatherList;
+    
+    /**
+     * Parameterized Constructor for SevenDayForecast
+     * @param weatherList
+     * @throws IOException 
+     */
     public SevenDayForecast(List<Weather> weatherList) throws IOException {
         this.weatherList = weatherList;
         this.buildScreen();
     }
+    /**
+     * buildScreen() sets up all the JavaFX containers and add all of its respective content into it
+     */
     private void buildScreen() {
         LocalDate localDate;
         DateTimeFormatter timeFormat = DateTimeFormatter.ofPattern("h:mm:ss a zz");
         
+        //Loop through all 7 day forecast Weather objects
         ArrayList<Tile> tileArr = new ArrayList<>();
-        for (int i = 0; i < weatherList.size(); i++) {   
+        for (int i = 0; i < weatherList.size(); i++) {
+            
+            //Weather tile
             Weather weatherObj = weatherList.get(i);
+            
+            //Image tile
             var imageTile = TileBuilder.create()
                 .skinType(Tile.SkinType.IMAGE)
                 .prefSize(200, 200)
@@ -91,6 +102,7 @@ public class SevenDayForecast extends VBox {
             tileArr.add(weatherTile);
         }
         
+        //Alert text area
         TextArea alertTextArea = new TextArea();
         String color = "white";
         
@@ -106,6 +118,7 @@ public class SevenDayForecast extends VBox {
                      + "-fx-text-inner-color: " + color + ";"
                      + "-fx-text-box-border: white;");
         
+        //Alert tile
         VBox alertVBox = new VBox(alertTextArea);
         
         var alertTile = TileBuilder.create()
@@ -116,11 +129,14 @@ public class SevenDayForecast extends VBox {
                 .graphic(alertVBox)
                 .build();
         
+        
+        //Exit button
         Button exit = new Button("Return to Dashboard");
         exit.setOnAction((event) -> {
             App.theStage.setScene(App.getDashboardScene());
         });
         
+        //Exit tile
         var exitTile = TileBuilder.create()
                 .skinType(Tile.SkinType.CUSTOM)
                 .prefSize(814, 300)
@@ -128,7 +144,8 @@ public class SevenDayForecast extends VBox {
                 .title("Return")
                 .graphic(exit)
                 .build();
-
+        
+        //Layout all of the tiles together
         HBox weatherHbox = new HBox();
         ArrayList<VBox> columns = new ArrayList<>();
         VBox column = new VBox();
@@ -145,19 +162,7 @@ public class SevenDayForecast extends VBox {
         alertAndExitHbox.getChildren().addAll(alertTile, exitTile);
         alertAndExitHbox.setSpacing(3);
         
-        /*ArrayList<VBox> columns = new ArrayList<>();
-        VBox column = new VBox();
-        for (int i = 0; i < tileArr.size(); i++) {
-            if (i % 3 == 0) {
-                columns.add(column);
-                column = new VBox();
-                column.setSpacing(5);
-            }
-            column.getChildren().add(tileArr.get(i));
-        }
-        columns.getChildren().addAll(alertTile, exitTile);
-        columns.add(column);*/
-
+        //Assign entire layout to SevenDayForecast object
         this.getChildren().addAll(weatherHbox, alertAndExitHbox);
         this.setSpacing(3);
     }
