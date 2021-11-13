@@ -57,15 +57,34 @@ public class SevenDayForecastTest {
     @Test
     public void testGetWeatherInfo() {
         
-        String expWeatherInfo = "Max temperature: 10°C" + "\n"
-                + "Min temperature: 5°C" + "\n"
-                + "Humidity: 80%" + "\n"
-                + "Sunrise: 9:48:54 p.m. CDT" + "\n"
-                + "Sunset: 12:11:41 p.m. CDT" + "\n"
-                + "Pressure: 500 hPa" + "\n"
-                + "UV Index: 0" + "\n"
-                + "Wind Speed: 30 km/h" + "\n"
-                + "Wind Gust: 20 km/h";
+        String expWeatherInfo;
+        boolean isWindows = System.getProperty("os.name")
+                .toLowerCase().startsWith("windows");
+        
+        expWeatherInfo = "Max temperature: 10°C" + "\n"
+                    + "Min temperature: 5°C" + "\n"
+                    + "Humidity: 80%" + "\n";
+        if (isWindows) {
+            expWeatherInfo += "Max temperature: 10°C" + "\n"
+                    + "Min temperature: 5°C" + "\n"
+                    + "Humidity: 80%" + "\n"
+                    + "Sunrise: 9:48:54 p.m. CDT" + "\n"
+                    + "Sunset: 12:11:41 p.m. CDT" + "\n"
+                    + "Pressure: 500 hPa" + "\n"
+                    + "UV Index: 0" + "\n"
+                    + "Wind Speed: 30 km/h" + "\n"
+                    + "Wind Gust: 20 km/h";
+        } else {
+            expWeatherInfo = "Max temperature: 10°C" + "\n"
+                    + "Min temperature: 5°C" + "\n"
+                    + "Humidity: 80%" + "\n"
+                    + "Sunrise: 9:48:54 PM CDT" + "\n"
+                    + "Sunset: 12:11:41 PM CDT" + "\n"
+                    + "Pressure: 500 hPa" + "\n"
+                    + "UV Index: 0" + "\n"
+                    + "Wind Speed: 30 km/h" + "\n"
+                    + "Wind Gust: 20 km/h";
+        }
         
         assertEquals(expWeatherInfo, sevenDayForecast.getWeatherInfo(testWeather));
     }
