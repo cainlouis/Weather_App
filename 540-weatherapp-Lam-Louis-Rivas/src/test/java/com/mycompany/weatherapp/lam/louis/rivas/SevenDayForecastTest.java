@@ -61,11 +61,8 @@ public class SevenDayForecastTest {
         boolean isWindows = System.getProperty("os.name")
                 .toLowerCase().startsWith("windows");
         
-        expWeatherInfo = "Max temperature: 10°C" + "\n"
-                    + "Min temperature: 5°C" + "\n"
-                    + "Humidity: 80%" + "\n";
         if (isWindows) {
-            expWeatherInfo += "Max temperature: 10°C" + "\n"
+            expWeatherInfo = "Max temperature: 10°C" + "\n"
                     + "Min temperature: 5°C" + "\n"
                     + "Humidity: 80%" + "\n"
                     + "Sunrise: 9:48:54 p.m. CDT" + "\n"
